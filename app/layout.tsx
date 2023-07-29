@@ -1,3 +1,4 @@
+import App from '@/app/App';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -15,7 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <App>{children}</App>
+      </body>
     </html>
   );
 }
