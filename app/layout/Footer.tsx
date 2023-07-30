@@ -40,7 +40,11 @@ export default function Footer() {
         </Text>
         <Text fz="md">
           Powered by{' '}
-          <Anchor href="https://github.com/Zielin0/hypicle" target="_blank">
+          <Anchor
+            href="https://github.com/Zielin0/hypicle"
+            target="_blank"
+            color="green"
+          >
             hypicle
           </Anchor>
         </Text>

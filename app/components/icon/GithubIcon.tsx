@@ -11,7 +11,7 @@ export default function ThemeIcon() {
       variant="default"
       title="Github Link"
     >
-      <IconBrandGithub size="2rem" />
+      <IconBrandGithub size="1.5rem" />
     </ActionIcon>
   );
 }

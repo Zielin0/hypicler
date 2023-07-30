@@ -8,12 +8,11 @@ export default function ThemeIcon() {
   return (
     <ActionIcon
       size="lg"
-      variant="outline"
-      color={dark ? 'yellow' : 'blue'}
+      variant="default"
       onClick={() => toggleColorScheme()}
       title="Toggle Color Scheme"
     >
-      {dark ? <IconSun size="2rem" /> : <IconMoonStars size="2rem" />}
+      {dark ? <IconSun size="1.5rem" /> : <IconMoonStars size="1.5rem" />}
     </ActionIcon>
   );
 }

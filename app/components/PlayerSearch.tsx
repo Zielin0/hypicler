@@ -55,7 +55,12 @@ export default function PlayerSearch() {
             className={classes.input}
             {...form.getInputProps('username')}
           />
-          <Button variant="filled" type="submit" style={{ flexShrink: 0 }}>
+          <Button
+            variant="filled"
+            color="green"
+            type="submit"
+            style={{ flexShrink: 0 }}
+          >
             <IconSearch />
           </Button>
         </div>
