@@ -2,6 +2,7 @@ import GithubIcon from '@/app/components/icon/GithubIcon';
 import ThemeIcon from '@/app/components/icon/ThemeIcon';
 
 import {
+  ActionIcon,
   Anchor,
   Container,
   Group,
@@ -10,6 +11,7 @@ import {
   Text,
   createStyles,
 } from '@mantine/core';
+import { IconMenu2 } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -35,18 +37,28 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+interface HeaderProps {
+  opened: boolean;
+  onClick: () => void;
+}
+
+export default function Header({ opened, onClick }: HeaderProps) {
   const { classes, cx } = useStyles();
 
   return (
     <MantineHeader height={60}>
       <Container className={classes.header}>
-        <Anchor href="/" className={classes.mainLink}>
-          <Image width={35} mr="xs" src="/icon.svg" alt="Logo" />
-          <Text fz="xl" fw={700}>
-            Hypicler
-          </Text>
-        </Anchor>
+        <Group>
+          <ActionIcon onClick={onClick} size="md">
+            <IconMenu2 />
+          </ActionIcon>
+          <Anchor href="/" className={classes.mainLink}>
+            <Image width={35} mr="xs" src="/icon.svg" alt="Logo" />
+            <Text fz="xl" fw={700}>
+              Hypicler
+            </Text>
+          </Anchor>
+        </Group>
 
         <Group spacing="sm" className={classes.links}>
           <ThemeIcon />

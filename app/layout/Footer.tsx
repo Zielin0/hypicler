@@ -43,7 +43,6 @@ export default function Footer() {
           <Anchor
             href="https://github.com/Zielin0/hypicle"
             target="_blank"
-            color="green"
           >
             hypicle
           </Anchor>

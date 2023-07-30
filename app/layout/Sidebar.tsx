@@ -37,7 +37,11 @@ const routes = [
   },
 ];
 
-export default function Sidebar() {
+interface SidebarProps {
+  opened: boolean;
+}
+
+export default function Sidebar({ opened }: SidebarProps) {
   const [active, setActive] = useState(0);
 
   const items = routes.map((item, index) => (
@@ -49,16 +53,15 @@ export default function Sidebar() {
     >
       <NavLink
         active={index === active}
-        label={item.label}
+        label={opened && item.label}
         icon={<item.icon />}
-        color="green"
         onClick={() => setActive(index)}
       />
     </Link>
   ));
 
   return (
-    <Navbar width={{ base: 250 }} p="xs">
+    <Navbar width={{ base: opened ? 250 : 70 }} p="xs">
       {items}
     </Navbar>
   );

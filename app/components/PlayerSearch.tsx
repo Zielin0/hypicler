@@ -57,7 +57,6 @@ export default function PlayerSearch() {
           />
           <Button
             variant="filled"
-            color="green"
             type="submit"
             style={{ flexShrink: 0 }}
           >

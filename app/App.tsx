@@ -16,20 +16,22 @@ export default function App({ children }: { children: React.ReactNode }) {
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
+  const [opened, setOpened] = useState(true);
+
   return (
     <ColorSchemeProvider
       colorScheme={colorScheme}
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider
-        theme={{ fontFamily: 'sans-serif', colorScheme }}
+        theme={{ fontFamily: 'Inter', colorScheme, primaryColor: 'green' }}
         withGlobalStyles
         withNormalizeCSS
       >
         <AppShell
           padding="sm"
-          navbar={<Sidebar />}
-          header={<Header />}
+          header={<Header opened={opened} onClick={() => setOpened(!opened)} />}
+          navbar={<Sidebar opened={opened} />}
           footer={<Footer />}
         >
           {children}
