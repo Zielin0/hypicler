@@ -8,7 +8,6 @@ import {
 } from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
 
 const routes = [
   {
@@ -44,10 +43,6 @@ interface SidebarProps {
 
 export default function Sidebar({ opened }: SidebarProps) {
   const path = usePathname();
-
-  useEffect(() => {
-    console.log(path);
-  }, [path]);
 
   const items = routes.map((item, index) => (
     <Link
