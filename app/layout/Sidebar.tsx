@@ -7,7 +7,8 @@ import {
   IconUsersGroup,
 } from '@tabler/icons-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 
 const routes = [
   {
@@ -42,7 +43,11 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ opened }: SidebarProps) {
-  const [active, setActive] = useState(0);
+  const path = usePathname();
+
+  useEffect(() => {
+    console.log(path);
+  }, [path]);
 
   const items = routes.map((item, index) => (
     <Link
@@ -52,10 +57,9 @@ export default function Sidebar({ opened }: SidebarProps) {
       style={{ textDecoration: 'none' }}
     >
       <NavLink
-        active={index === active}
+        active={path.startsWith(item.route) || (index === 0 && path === '/')}
         label={opened && item.label}
         icon={<item.icon />}
-        onClick={() => setActive(index)}
       />
     </Link>
   ));
