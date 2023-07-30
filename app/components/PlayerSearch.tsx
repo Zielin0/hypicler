@@ -4,8 +4,13 @@ import { IconSearch } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   card: {
-    minWidth: 600,
-    maxWidth: 600,
+    width: 600,
+    [theme.fn.smallerThan('md')]: {
+      width: 500,
+    },
+    [theme.fn.smallerThan('xs')]: {
+      width: 300,
+    },
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -19,7 +24,13 @@ const useStyles = createStyles((theme) => ({
     justifyContent: 'center',
   },
   input: {
-    marginRight: theme.spacing.md,
+    width: 500,
+    [theme.fn.smallerThan('md')]: {
+      width: 350,
+    },
+    [theme.fn.smallerThan('xs')]: {
+      width: 200,
+    },
     flex: 1,
   },
 }));
@@ -50,16 +61,11 @@ export default function PlayerSearch() {
           <Input
             placeholder="Username"
             variant="default"
-            miw={500}
             mr="sm"
             className={classes.input}
             {...form.getInputProps('username')}
           />
-          <Button
-            variant="filled"
-            type="submit"
-            style={{ flexShrink: 0 }}
-          >
+          <Button variant="filled" type="submit" style={{ flexShrink: 0 }}>
             <IconSearch />
           </Button>
         </div>
