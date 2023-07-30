@@ -42,7 +42,7 @@ export default function Header() {
     <MantineHeader height={60}>
       <Container className={classes.header}>
         <Anchor href="#" className={classes.mainLink}>
-          <Image width={45} src="/icon.svg" alt="Logo" />
+          <Image width={35} mr="xs" src="/icon.svg" alt="Logo" />
           <Text fz="xl" fw={700}>
             Hypicler
           </Text>
