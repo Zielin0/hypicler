@@ -2,7 +2,8 @@ import { GuildInput } from '@/app/types/GuildInput';
 import { Button, Card, createStyles, Input, Select, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconSearch } from '@tabler/icons-react';
-import { useState } from 'react';
+import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -60,7 +61,7 @@ const selectData = [
 
 export default function GuildSearch() {
   const { classes, cx } = useStyles();
-  const [selected, setSelected] = useState(GuildInput.name);
+  const [submit, setSubmit] = useState(false);
 
   const form = useForm({
     initialValues: {
@@ -79,10 +80,14 @@ export default function GuildSearch() {
     },
   });
 
+  useEffect(() => {
+    if (submit) redirect(`/guild/${form.values.name}`);
+  });
+
   return (
     <Card shadow="sm" padding="md" withBorder className={classes.card}>
       <form
-        onSubmit={form.onSubmit((values) => console.log(values))}
+        onSubmit={form.onSubmit((_values) => setSubmit(true))}
         className={classes.form}
       >
         <Text fz="lg" fw={700} mb="sm">

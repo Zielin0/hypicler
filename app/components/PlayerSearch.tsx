@@ -1,6 +1,8 @@
 import { Button, Card, Input, Text, createStyles } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconSearch } from '@tabler/icons-react';
+import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -37,6 +39,7 @@ const useStyles = createStyles((theme) => ({
 
 export default function PlayerSearch() {
   const { classes, cx } = useStyles();
+  const [submit, setSubmit] = useState(false);
 
   const form = useForm({
     initialValues: {
@@ -48,10 +51,14 @@ export default function PlayerSearch() {
     },
   });
 
+  useEffect(() => {
+    if (submit) redirect(`/player/${form.values.username}`);
+  });
+
   return (
     <Card shadow="sm" padding="md" withBorder className={classes.card}>
       <form
-        onSubmit={form.onSubmit((values) => console.log(values))}
+        onSubmit={form.onSubmit((_values) => setSubmit(true))}
         className={classes.form}
       >
         <Text fz="lg" fw={700} mb="sm">
