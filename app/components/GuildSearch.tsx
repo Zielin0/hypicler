@@ -1,6 +1,8 @@
-import { Button, Card, createStyles, Input, Text } from '@mantine/core';
+import { GuildInput } from '@/app/types/GuildInput';
+import { Button, Card, createStyles, Input, Select, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconSearch } from '@tabler/icons-react';
+import { useState } from 'react';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -33,18 +35,47 @@ const useStyles = createStyles((theme) => ({
     },
     flex: 1,
   },
+  dropdown: {
+    width: 200,
+    [theme.fn.smallerThan('xs')]: {
+      width: 150,
+    },
+  },
 }));
 
-// TODO: Choose between guild name, guild ID and player name as an input
+const selectData = [
+  {
+    value: GuildInput.name,
+    label: 'Guild Name',
+  },
+  {
+    value: GuildInput.id,
+    label: 'Guild ID',
+  },
+  {
+    value: GuildInput.player,
+    label: 'Player Name',
+  },
+];
+
 export default function GuildSearch() {
   const { classes, cx } = useStyles();
+  const [selected, setSelected] = useState(GuildInput.name);
 
   const form = useForm({
     initialValues: {
       name: '',
+      type: GuildInput.name,
     },
     validate: {
-      name: (value) => (value.length < 16 ? null : 'Invalid Guild Name'),
+      name: (value) =>
+        value.trim().length > 0 && value.trim().length <= 16
+          ? null
+          : 'Invalid Guild Name',
+      type: (value) =>
+        Object.values(GuildInput).includes(value)
+          ? null
+          : 'Invalid Guild Input Type',
     },
   });
 
@@ -57,9 +88,23 @@ export default function GuildSearch() {
         <Text fz="lg" fw={700} mb="sm">
           Guild Search
         </Text>
+        <Select
+          id="guildSearchInputType"
+          placeholder="Search By"
+          label="Search By"
+          variant="default"
+          mb="sm"
+          withinPortal
+          className={classes.dropdown}
+          data={selectData}
+          {...form.getInputProps('type')}
+        />
         <div style={{ display: 'flex' }}>
           <Input
-            placeholder="Guild Name"
+            placeholder={
+              selectData.find((option) => option.value === form.values.type)
+                ?.label
+            }
             variant="default"
             mr="sm"
             className={classes.input}
