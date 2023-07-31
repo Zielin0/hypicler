@@ -81,7 +81,7 @@ export default function GuildSearch() {
   });
 
   useEffect(() => {
-    if (submit) redirect(`/guild/${form.values.name}`);
+    if (submit) redirect(`/guild/${form.values.name}?type=${form.values.type}`);
   });
 
   return (
