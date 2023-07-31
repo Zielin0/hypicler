@@ -17,7 +17,6 @@ const useStyles = createStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: theme.spacing.md,
   },
   form: {
     display: 'flex',
