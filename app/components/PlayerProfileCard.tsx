@@ -1,3 +1,4 @@
+import { capitalize } from '@/app/utils/utils';
 import {
   ActionIcon,
   Badge,
@@ -227,6 +228,7 @@ export default function PlayerProfileCard({
   onCopy,
 }: PlayerCardProps) {
   const { classes, cx } = useStyles();
+  const [opened, { close, open }] = useDisclosure(false);
 
   return (
     <Card
@@ -254,9 +256,47 @@ export default function PlayerProfileCard({
             {name}
           </Text>
         </div>
-        <Badge variant="light" color={status.online ? 'green' : 'red'}>
-          {status.online ? 'Online' : 'Offline'}
-        </Badge>
+        {status.online ? (
+          <Popover
+            position="top"
+            withArrow
+            shadow="md"
+            withinPortal
+            opened={opened}
+          >
+            <Popover.Target>
+              <Badge
+                variant="light"
+                color="green"
+                onMouseEnter={open}
+                onMouseLeave={close}
+                style={{ cursor: 'pointer' }}
+              >
+                Online
+              </Badge>
+            </Popover.Target>
+            <Popover.Dropdown>
+              <Text fz="sm" fw={500}>
+                Mode:{' '}
+                <Text span fz="sm" fw={400}>
+                  {capitalize(status.gameType)}
+                </Text>
+              </Text>
+              {status.gameType !== 'HOUSING' && (
+                <Text fz="sm" fw={500}>
+                  Map:{' '}
+                  <Text span fz="sm" fw={400}>
+                    {status.map}
+                  </Text>
+                </Text>
+              )}
+            </Popover.Dropdown>
+          </Popover>
+        ) : (
+          <Badge variant="light" color="red">
+            Offline
+          </Badge>
+        )}
       </Group>
 
       <Card.Section className={classes.section}>

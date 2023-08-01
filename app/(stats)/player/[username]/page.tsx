@@ -42,7 +42,14 @@ export default function Page({ params }: { params: { username: string } }) {
         lastLogin={1690798385269}
         level={46.71404897959184}
         karma={1003090}
-        status={{ online: false } as Session}
+        status={
+          {
+            online: true,
+            gameType: 'BEDWARS',
+            mode: 'BEDWARS_EIGHT_TWO',
+            map: 'Dragonstar',
+          } as Session
+        }
         rank={'VIP'}
         socials={{
           links: {
