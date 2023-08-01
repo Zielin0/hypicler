@@ -8,6 +8,7 @@ import {
   Popover,
   Space,
   Text,
+  Tooltip,
   createStyles,
   rem,
 } from '@mantine/core';
@@ -142,7 +143,7 @@ const PlayerSocialLinks = ({ socials, onCopy }: PlayerSocialsProps) => {
               {({ copied, copy }) => (
                 <ActionIcon
                   key={key}
-                  title={title}
+                  aria-label={title}
                   onClick={() => {
                     copy();
                     onCopy();
@@ -176,16 +177,28 @@ const PlayerSocialLinks = ({ socials, onCopy }: PlayerSocialsProps) => {
         </Popover>
       </div>
     ) : (
-      <ActionIcon
-        component="a"
-        href={socials.links[key]}
-        target="_blank"
-        key={key}
-        title={title}
-        className={classes.socialIcon}
+      <Tooltip
+        label={title}
+        styles={(theme) => ({
+          tooltip: {
+            backgroundColor: `${
+              theme.colorScheme === 'dark' ? '#1A1B1E' : '#F8F9FA'
+            }`,
+            color: `${theme.colorScheme === 'dark' ? '#F8F9FA' : '#101113'}`,
+          },
+        })}
       >
-        <socialInfo.icon style={{ color }} size="3rem" />
-      </ActionIcon>
+        <ActionIcon
+          component="a"
+          href={socials.links[key]}
+          target="_blank"
+          key={key}
+          aria-label={title}
+          className={classes.socialIcon}
+        >
+          <socialInfo.icon style={{ color }} size="3rem" />
+        </ActionIcon>
+      </Tooltip>
     );
   });
 };
