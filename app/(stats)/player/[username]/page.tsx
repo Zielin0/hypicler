@@ -23,6 +23,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 // TODO: Fetch and apply data from the API
+// TODO: OWNER rank for hypixel & rezzus and PIG+++ rank for technoblade
 export default function Page({ params }: { params: { username: string } }) {
   const { classes, cx } = useStyles();
   const [showNotif, setShowNotif] = useState(false);

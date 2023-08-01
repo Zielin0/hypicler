@@ -1,4 +1,4 @@
-import { capitalize } from '@/app/utils/utils';
+import { capitalize, format } from '@/app/utils/utils';
 import {
   ActionIcon,
   Badge,
@@ -25,8 +25,7 @@ import {
 } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { Session, SocialMedia } from 'hypicle';
-
-const format = 'DD MMM YYYY HH:mm:ss';
+import PlayerName from './PlayerName';
 
 const socialMap = [
   {
@@ -216,6 +215,7 @@ interface PlayerCardProps {
   onCopy: () => void;
 }
 
+// TODO: Guild section & guild tag in the PlayerName
 export default function PlayerProfileCard({
   name,
   firstLogin,
@@ -249,12 +249,7 @@ export default function PlayerProfileCard({
 
       <Group position="apart" my="sm">
         <div>
-          <Text fz="md">
-            <Text span fw={700} mr={5}>
-              {rank}
-            </Text>
-            {name}
-          </Text>
+          <PlayerName username={name} rank={rank} />
         </div>
         {status.online ? (
           <Popover
