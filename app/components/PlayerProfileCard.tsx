@@ -1,7 +1,7 @@
 import PlayerName from '@/app/components/PlayerName';
 import { gameTypeMap, guildRankMap } from '@/app/types/Maps';
 import { PlayerCardGuildProps } from '@/app/types/PlayerCardGuildProps';
-import { format } from '@/app/utils/utils';
+import { copyMessage, format } from '@/app/utils/utils';
 import {
   ActionIcon,
   Badge,
@@ -128,10 +128,9 @@ const getAvatarByName = (username: string): string => {
 
 interface PlayerSocialsProps {
   socials: SocialMedia;
-  onCopy: () => void;
 }
 
-const PlayerSocialLinks = ({ socials, onCopy }: PlayerSocialsProps) => {
+const PlayerSocialLinks = ({ socials }: PlayerSocialsProps) => {
   const { classes, cx } = useStyles();
   const [opened, { close, open }] = useDisclosure(false);
 
@@ -164,7 +163,7 @@ const PlayerSocialLinks = ({ socials, onCopy }: PlayerSocialsProps) => {
                   aria-label={title}
                   onClick={() => {
                     copy();
-                    onCopy();
+                    copyMessage('Discord');
                   }}
                   onMouseEnter={open}
                   onMouseLeave={close}
@@ -287,7 +286,6 @@ interface PlayerCardProps {
   rank: string;
   socials: SocialMedia;
   guild: PlayerCardGuildProps | null;
-  onCopy: () => void;
 }
 
 export default function PlayerProfileCard({
@@ -301,7 +299,6 @@ export default function PlayerProfileCard({
   rank,
   socials,
   guild,
-  onCopy,
 }: PlayerCardProps) {
   const { classes, cx } = useStyles();
   const [opened, { close, open }] = useDisclosure(false);
@@ -424,7 +421,7 @@ export default function PlayerProfileCard({
 
       {socials !== null && socials.links !== null && (
         <Card.Section className={classes.socials}>
-          <PlayerSocialLinks socials={socials} onCopy={onCopy} />
+          <PlayerSocialLinks socials={socials} />
         </Card.Section>
       )}
     </Card>

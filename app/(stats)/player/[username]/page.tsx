@@ -2,7 +2,6 @@
 
 import PlayerProfileCard from '@/app/components/PlayerProfileCard';
 import { PlayerCardGuildProps } from '@/app/types/PlayerCardGuildProps';
-import { copyMessage } from '@/app/utils/utils';
 import { Alert, Loader, createStyles } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { Session, SocialMedia } from 'hypicle';
@@ -77,7 +76,6 @@ export default function Page({ params }: { params: { username: string } }) {
               rank={data.rank}
               socials={data.socials}
               guild={data.guild}
-              onCopy={() => copyMessage('Discord')}
             />
           </div>
         ) : (

@@ -1,4 +1,5 @@
 import GithubIcon from '@/app/components/icon/GithubIcon';
+import InfoIcon from '@/app/components/icon/InfoIcon';
 import ThemeIcon from '@/app/components/icon/ThemeIcon';
 
 import {
@@ -42,7 +43,6 @@ interface HeaderProps {
   onClick: () => void;
 }
 
-// TODO: Add an info icon that shows an alert with info about something potentially breaking and reporting it to me
 export default function Header({ opened, onClick }: HeaderProps) {
   const { classes, cx } = useStyles();
 
@@ -62,8 +62,9 @@ export default function Header({ opened, onClick }: HeaderProps) {
         </Group>
 
         <Group spacing="sm" className={classes.links}>
-          <ThemeIcon />
+          <InfoIcon />
           <GithubIcon />
+          <ThemeIcon />
         </Group>
       </Container>
     </MantineHeader>
