@@ -42,6 +42,7 @@ interface HeaderProps {
   onClick: () => void;
 }
 
+// TODO: Add an info icon that shows an alert with info about something potentially breaking and reporting it to me
 export default function Header({ opened, onClick }: HeaderProps) {
   const { classes, cx } = useStyles();
 

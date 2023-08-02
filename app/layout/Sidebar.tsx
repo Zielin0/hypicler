@@ -50,6 +50,7 @@ export default function Sidebar({ opened }: SidebarProps) {
       href={item.route}
       passHref
       style={{ textDecoration: 'none' }}
+      aria-label={item.label}
     >
       <NavLink
         active={path.startsWith(item.route) || (index === 0 && path === '/')}

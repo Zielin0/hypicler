@@ -1,74 +1,102 @@
 'use client';
 
 import PlayerProfileCard from '@/app/components/PlayerProfileCard';
-import { createStyles, rem } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconCheck } from '@tabler/icons-react';
-import { Session } from 'hypicle';
+import { PlayerCardGuildProps } from '@/app/types/PlayerCardGuildProps';
+import { copyMessage } from '@/app/utils/utils';
+import { Alert, Loader, createStyles } from '@mantine/core';
+import { IconAlertCircle } from '@tabler/icons-react';
+import { Session, SocialMedia } from 'hypicle';
+import { useEffect, useState } from 'react';
 
 const useStyles = createStyles((theme) => ({
   container: {
     display: 'flex',
     alignItems: 'left',
   },
+  centered: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+  },
 }));
 
-// TODO: Fetch and apply data from the API
+interface PlayerDataResponse {
+  success: boolean;
+  message?: string;
+  name: string;
+  firstLogin: number;
+  lastLogin: number;
+  level: number;
+  karma: number;
+  achievements: number;
+  status: Session;
+  rank: string;
+  socials: SocialMedia;
+  guild: PlayerCardGuildProps | null;
+}
+
+function fetchData(url: string): Promise<PlayerDataResponse> {
+  return fetch(url).then((response) => response.json());
+}
+
 // TODO: OWNER rank for hypixel & rezzus and PIG+++ rank for technoblade
 export default function Page({ params }: { params: { username: string } }) {
   const { classes, cx } = useStyles();
+  const [data, setData] = useState<PlayerDataResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleCopy = () => {
-    notifications.show({
-      title: 'Success',
-      message: 'Copied Discord to the Cipboard',
-      icon: <IconCheck size="1.1rem" />,
-      color: 'teal',
-      autoClose: 5000,
-      withBorder: true,
-      style: { bottom: rem(80) },
-    });
-  };
+  useEffect(() => {
+    async function fetchDataAsync() {
+      try {
+        const fetched = await fetchData(
+          `/api/player?username=${params.username}`
+        );
+        setData(fetched);
+      } catch (error) {
+        setError('An error occurred while fetching data.');
+      }
+    }
+
+    fetchDataAsync();
+  }, []);
 
   return (
-    <div className={classes.container}>
-      <PlayerProfileCard
-        name={'Zielino'}
-        firstLogin={1621518292341}
-        lastLogin={1690798385269}
-        level={46.71404897959184}
-        karma={1003090}
-        status={
-          {
-            online: true,
-            gameType: 'BEDWARS',
-            mode: 'BEDWARS_EIGHT_TWO',
-            map: 'Dragonstar',
-          } as Session
-        }
-        rank={'VIP'}
-        socials={{
-          links: {
-            DISCORD: 'Zielino#7342',
-            HYPIXEL: 'https://hypixel.net/members/zielino.5132535',
-            TWITCH: 'https://twitch.tv/zielin0',
-            TIKTOK: 'https://tiktok.com/@wdklfujhqlwekiufhk',
-            INSTAGRAM: 'https://instagram.com/asdkujfhqlkwrg',
-            YOUTUBE: 'https://youtube.com/@ZielinoCoding',
-            TWITTER: 'https://twitter.com/theZielino',
-          },
-          prompt: true,
-        }}
-        guild={{
-          name: 'Test Guild',
-          members: 412,
-          rank: 'GUILDMASTER',
-          joined: 1435699661039,
-          tag: 'BALLS',
-          tagColor: 'GOLD',
-        }}
-        onCopy={handleCopy}
-      />
-    </div>
+    <>
+      {data ? (
+        data.success ? (
+          <div className={classes.container}>
+            <PlayerProfileCard
+              name={data.name}
+              firstLogin={data.firstLogin}
+              lastLogin={data.lastLogin}
+              level={data.level}
+              karma={data.karma}
+              achievements={data.achievements}
+              status={data.status}
+              rank={data.rank}
+              socials={data.socials}
+              guild={data.guild}
+              onCopy={() => copyMessage('Discord')}
+            />
+          </div>
+        ) : (
+          <div className={classes.centered}>
+            <Alert
+              icon={<IconAlertCircle size="1.5rem" />}
+              title="Something went wrong!"
+              color="red"
+              pr="lg"
+            >
+              {data.message}
+            </Alert>
+          </div>
+        )
+      ) : (
+        <div className={classes.centered}>
+          <Loader size={100} />
+        </div>
+      )}
+    </>
   );
 }

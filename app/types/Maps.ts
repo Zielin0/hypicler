@@ -8,7 +8,7 @@ export type Rank = {
 
 export const rankMap: Rank[] = [
   {
-    key: 'NORMAL',
+    key: 'NONE',
     name: 'NORMAL',
     color: '#909296',
     borderColor: '#909296',

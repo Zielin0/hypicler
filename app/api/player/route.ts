@@ -12,47 +12,63 @@ export async function GET(request: NextRequest) {
       message: 'Missing username param',
     });
 
-  const uuid = await getUUIDByName(username);
-  const player = new Player(client, uuid);
+  try {
+    const uuid = await getUUIDByName(username);
+    const player = new Player(client, uuid);
 
-  const name = await player.getName();
-  const level = await player.getExactLevel();
-  const karma = await player.getKarma();
+    const name = await player.getName();
+    const level = await player.getExactLevel();
+    const karma = (await player.getKarma()) || 0;
 
-  const status = await player.getStatus();
-  const rank = await player.getHighestRank();
-  const socials = await player.getSocialMedia();
+    const status = await player.getStatus();
+    const rank = await player.getHighestRank();
+    const socialsData = await player.getSocialMedia();
+    const socials =
+      socialsData !== null && socialsData.hasOwnProperty('links')
+        ? socialsData
+        : { ...socialsData, links: null };
 
-  const firstLogin = (await player.get())!.firstLogin;
-  const lastLogin = (await player.get())!.lastLogin;
+    const firstLogin = (await player.get()).firstLogin;
+    const lastLogin = (await player.get()).lastLogin;
 
-  const playerGuildData = await player.getGuild();
-  const guildData = {
-    id: playerGuildData?._id,
-    name: playerGuildData?.name,
-    members: playerGuildData?.members.length,
-    rank: playerGuildData?.members.find((member) => member.uuid === uuid)?.rank,
-    joined: playerGuildData?.members.find((member) => member.uuid === uuid)
-      ?.joined,
-    tag: playerGuildData?.tag,
-    tagColor: playerGuildData?.tagColor,
-  };
-  const guild =
-    Object.keys(guildData).length === 0 ||
-    Object.values(guildData).every((value) => value === undefined)
-      ? null
-      : guildData;
+    const achievements = (await player.get()).achievementPoints;
 
-  return NextResponse.json({
-    uuid,
-    name,
-    firstLogin,
-    lastLogin,
-    level,
-    karma,
-    status,
-    rank,
-    socials,
-    guild,
-  });
+    const playerGuildData = await player.getGuild();
+    const guildData = {
+      id: playerGuildData?._id,
+      name: playerGuildData?.name,
+      members: playerGuildData?.members.length,
+      rank: playerGuildData?.members.find((member) => member.uuid === uuid)
+        ?.rank,
+      joined: playerGuildData?.members.find((member) => member.uuid === uuid)
+        ?.joined,
+      tag: playerGuildData?.tag,
+      tagColor: playerGuildData?.tagColor,
+    };
+    const guild =
+      Object.keys(guildData).length === 0 ||
+      Object.values(guildData).every((value) => value === undefined)
+        ? null
+        : guildData;
+
+    return NextResponse.json({
+      success: true,
+      uuid,
+      name,
+      firstLogin,
+      lastLogin,
+      level,
+      karma,
+      achievements,
+      status,
+      rank,
+      socials,
+      guild,
+    });
+  } catch (error) {
+    return NextResponse.json({
+      success: false,
+      message: "This player doesn't exist.",
+    });
+  }
 }

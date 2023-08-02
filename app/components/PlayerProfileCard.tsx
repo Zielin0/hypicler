@@ -1,5 +1,6 @@
 import PlayerName from '@/app/components/PlayerName';
 import { gameTypeMap, guildRankMap } from '@/app/types/Maps';
+import { PlayerCardGuildProps } from '@/app/types/PlayerCardGuildProps';
 import { format } from '@/app/utils/utils';
 import {
   ActionIcon,
@@ -76,7 +77,7 @@ const socialMap = [
 
 const useStyles = createStyles((theme) => ({
   card: {
-    width: 350,
+    width: 375,
   },
   avatar: {
     padding: theme.spacing.md,
@@ -146,13 +147,14 @@ const PlayerSocialLinks = ({ socials, onCopy }: PlayerSocialsProps) => {
     const { title, color } = socialInfo;
 
     return key === 'DISCORD' ? (
-      <div style={{ position: 'relative', display: 'inline-block' }}>
+      <div key={key} style={{ position: 'relative', display: 'inline-block' }}>
         <Popover
           width={185}
           position="top"
           withArrow
           shadow="md"
           opened={opened}
+          key={key}
         >
           <Popover.Target>
             <CopyButton value={socials.links[key]}>
@@ -274,21 +276,13 @@ const PlayerGuild = ({
   );
 };
 
-interface PlayerCardGuildProps {
-  name: string;
-  members: number;
-  rank: string;
-  joined: number;
-  tag: string;
-  tagColor: string;
-}
-
 interface PlayerCardProps {
   name: string;
   firstLogin: number;
   lastLogin: number;
   level: number;
   karma: number;
+  achievements: number;
   status: Session;
   rank: string;
   socials: SocialMedia;
@@ -302,6 +296,7 @@ export default function PlayerProfileCard({
   lastLogin,
   level,
   karma,
+  achievements,
   status,
   rank,
   socials,
@@ -392,6 +387,12 @@ export default function PlayerProfileCard({
           </Text>
           {karma.toLocaleString('en')}
         </Text>
+        <Text fz="sm">
+          <Text span fw={700} mr={5}>
+            Achievement Points:
+          </Text>
+          {achievements.toLocaleString('en')}
+        </Text>
 
         <Space h="sm" />
 
@@ -421,7 +422,7 @@ export default function PlayerProfileCard({
         </Card.Section>
       )}
 
-      {(socials.links !== null || socials.links !== undefined) && (
+      {socials !== null && socials.links !== null && (
         <Card.Section className={classes.socials}>
           <PlayerSocialLinks socials={socials} onCopy={onCopy} />
         </Card.Section>
