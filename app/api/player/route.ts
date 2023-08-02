@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   if (!username)
     return NextResponse.json({
       success: false,
-      message: 'Missing username param',
+      message: 'Missing [username] param',
     });
 
   try {
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     const firstLogin = (await player.get()).firstLogin;
     const lastLogin = (await player.get()).lastLogin;
 
-    const achievements = (await player.get()).achievementPoints;
+    const achievements = (await player.get()).achievementPoints || 0;
 
     const playerGuildData = await player.getGuild();
     const guildData = {

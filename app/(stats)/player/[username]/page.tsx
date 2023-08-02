@@ -35,8 +35,21 @@ interface PlayerDataResponse {
   guild: PlayerCardGuildProps | null;
 }
 
-function fetchData(url: string): Promise<PlayerDataResponse> {
-  return fetch(url).then((response) => response.json());
+async function fetchData(url: string): Promise<PlayerDataResponse> {
+  const response = await fetch(url);
+  return await response.json();
+}
+
+function getRank(username: string, rank: string): string {
+  switch (username.toLowerCase()) {
+    case 'hypixel':
+    case 'rezzus':
+      return 'OWNER';
+    case 'technoblade':
+      return 'PIG';
+    default:
+      return rank;
+  }
 }
 
 // TODO: OWNER rank for hypixel & rezzus and PIG+++ rank for technoblade
@@ -73,7 +86,7 @@ export default function Page({ params }: { params: { username: string } }) {
               karma={data.karma}
               achievements={data.achievements}
               status={data.status}
-              rank={data.rank}
+              rank={getRank(data.name, data.rank)}
               socials={data.socials}
               guild={data.guild}
             />
