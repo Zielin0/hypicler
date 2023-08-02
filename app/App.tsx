@@ -11,6 +11,7 @@ import Footer from '@/app/layout/Footer';
 import Header from '@/app/layout/Header';
 import Sidebar from '@/app/layout/Sidebar';
 import { useMediaQuery } from '@mantine/hooks';
+import { Notifications } from '@mantine/notifications';
 
 export default function App({ children }: { children: React.ReactNode }) {
   const [colorScheme, setColorScheme] = useState<ColorScheme>('dark');
@@ -34,6 +35,7 @@ export default function App({ children }: { children: React.ReactNode }) {
         withGlobalStyles
         withNormalizeCSS
       >
+        <Notifications />
         <AppShell
           padding="sm"
           header={<Header opened={opened} onClick={() => setOpened(!opened)} />}

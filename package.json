@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/core": "^6.0.17",
+    "@mantine/hooks": "^6.0.17",
+    "@mantine/form": "^6.0.17",
+    "@mantine/notifications": "^6.0.17",
+    "@tabler/icons-react": "^2.30.0",
     "dayjs": "^1.11.9",
     "hypicle": "^1.0.0",
     "next": "13.4.12",
@@ -17,10 +22,6 @@
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
-    "@mantine/core": "^6.0.17",
-    "@mantine/form": "^6.0.17",
-    "@mantine/hooks": "^6.0.17",
-    "@tabler/icons-react": "^2.30.0",
     "@types/node": "20.4.5",
     "@types/react": "18.2.17",
     "@types/react-dom": "18.2.7",

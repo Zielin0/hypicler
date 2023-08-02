@@ -1,24 +1,15 @@
 'use client';
 
 import PlayerProfileCard from '@/app/components/PlayerProfileCard';
-import { createStyles, Notification, rem } from '@mantine/core';
+import { createStyles, rem } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { Session } from 'hypicle';
-import { useState } from 'react';
 
 const useStyles = createStyles((theme) => ({
   container: {
     display: 'flex',
     alignItems: 'left',
-  },
-  notification: {
-    position: 'fixed',
-    bottom: rem(100),
-    right: theme.spacing.md,
-    [theme.fn.smallerThan('xs')]: {
-      bottom: rem(85),
-      right: rem(5),
-    },
   },
 }));
 
@@ -26,13 +17,17 @@ const useStyles = createStyles((theme) => ({
 // TODO: OWNER rank for hypixel & rezzus and PIG+++ rank for technoblade
 export default function Page({ params }: { params: { username: string } }) {
   const { classes, cx } = useStyles();
-  const [showNotif, setShowNotif] = useState(false);
 
   const handleCopy = () => {
-    setShowNotif(true);
-    setTimeout(() => {
-      setShowNotif(false);
-    }, 5000);
+    notifications.show({
+      title: 'Success',
+      message: 'Copied Discord to the Cipboard',
+      icon: <IconCheck size="1.1rem" />,
+      color: 'teal',
+      autoClose: 5000,
+      withBorder: true,
+      style: { bottom: rem(80) },
+    });
   };
 
   return (
@@ -74,18 +69,6 @@ export default function Page({ params }: { params: { username: string } }) {
         }}
         onCopy={handleCopy}
       />
-      {showNotif && (
-        <Notification
-          className={classes.notification}
-          icon={<IconCheck size="1.1rem" />}
-          onClose={() => setShowNotif(false)}
-          color="teal"
-          title="Success!"
-          withBorder
-        >
-          Copied Discord to the Clipboard
-        </Notification>
-      )}
     </div>
   );
 }
