@@ -1,6 +1,6 @@
 import PlayerName from '@/app/components/PlayerName';
-import { guildRankMap } from '@/app/types/Maps';
-import { capitalize, format } from '@/app/utils/utils';
+import { gameTypeMap, guildRankMap } from '@/app/types/Maps';
+import { format } from '@/app/utils/utils';
 import {
   ActionIcon,
   Badge,
@@ -296,7 +296,6 @@ interface PlayerCardProps {
   onCopy: () => void;
 }
 
-// TODO: Guild section & guild tag in the PlayerName
 export default function PlayerProfileCard({
   name,
   firstLogin,
@@ -360,8 +359,7 @@ export default function PlayerProfileCard({
               <Text fz="sm" fw={500}>
                 Mode:{' '}
                 <Text span fz="sm" fw={400}>
-                  {/* TODO: Use a game type map instead of capitalizing */}
-                  {capitalize(status.gameType)}
+                  {gameTypeMap[status.gameType as keyof typeof gameTypeMap]}
                 </Text>
               </Text>
               {status.gameType !== 'HOUSING' && (
