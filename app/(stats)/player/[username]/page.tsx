@@ -64,6 +64,14 @@ export default function Page({ params }: { params: { username: string } }) {
           },
           prompt: true,
         }}
+        guild={{
+          name: 'Test Guild',
+          members: 412,
+          rank: 'GUILDMASTER',
+          joined: 1435699661039,
+          tag: 'BALLS',
+          tagColor: 'GOLD',
+        }}
         onCopy={handleCopy}
       />
       {showNotif && (

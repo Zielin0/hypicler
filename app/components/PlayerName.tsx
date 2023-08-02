@@ -1,12 +1,19 @@
-import { Rank, rankMap } from '@/app/types/Ranks';
+import { Rank, guildTagMap, rankMap } from '@/app/types/Maps';
 import { Text } from '@mantine/core';
+
+interface GuildTag {
+  tag: string | undefined;
+  tagColor: string | undefined;
+}
 
 export default function PlayerName({
   username,
   rank,
+  guildTag,
 }: {
   username: string;
   rank: string;
+  guildTag: GuildTag;
 }) {
   const { name, color, borderColor, nameColor } = rankMap.find(
     (item) => item.key === rank
@@ -33,6 +40,16 @@ export default function PlayerName({
         </Text>
       </Text>
       {username}
+      {guildTag.tag !== undefined && (
+        <Text
+          fz="md"
+          span
+          ml={5}
+          color={guildTagMap[guildTag.tagColor as keyof typeof guildTagMap]}
+        >
+          [{guildTag.tag}]
+        </Text>
+      )}
     </Text>
   );
 }

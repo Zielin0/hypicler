@@ -79,7 +79,15 @@ export const rankMap: Rank[] = [
   },
 ];
 
-const guildRankMap = {
+export const guildRankMap = {
   GUILDMASTER: 'Guild Master',
   OFFICER: 'Officer',
+};
+
+export const guildTagMap = {
+  GRAY: '#868E96',
+  GOLD: '#F59F00',
+  DARK_AQUA: '#1098AD',
+  DARK_GREEN: '#099268',
+  YELLOW: '#FFD43B',
 };

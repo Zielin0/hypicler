@@ -1,3 +1,5 @@
+import PlayerName from '@/app/components/PlayerName';
+import { guildRankMap } from '@/app/types/Maps';
 import { capitalize, format } from '@/app/utils/utils';
 import {
   ActionIcon,
@@ -25,7 +27,7 @@ import {
 } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { Session, SocialMedia } from 'hypicle';
-import PlayerName from './PlayerName';
+import Link from 'next/link';
 
 const socialMap = [
   {
@@ -93,6 +95,20 @@ const useStyles = createStyles((theme) => ({
     borderBottom: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
+  },
+  guild: {
+    padding: theme.spacing.md,
+    borderBottom: `${rem(1)} solid ${
+      theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
+    }`,
+  },
+  guildLink: {
+    color: theme.colors.green[7],
+    textDecoration: 'none',
+
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   },
   socials: {
     padding: theme.spacing.md,
@@ -203,6 +219,70 @@ const PlayerSocialLinks = ({ socials, onCopy }: PlayerSocialsProps) => {
   });
 };
 
+interface PlayerGuildProps {
+  username: string;
+  name: string;
+  members: number;
+  rank: string;
+  joined: number;
+}
+
+const PlayerGuild = ({
+  username,
+  name,
+  members,
+  rank,
+  joined,
+}: PlayerGuildProps) => {
+  const { classes, cx } = useStyles();
+
+  return (
+    <>
+      <Text fz="sm">
+        <Text span fw={700} mr={5}>
+          Name:
+        </Text>
+        <Link
+          href={`/guild/${username}?type=player`}
+          className={classes.guildLink}
+        >
+          {name}
+        </Link>
+      </Text>
+      <Text fz="sm">
+        <Text span fw={700} mr={5}>
+          Members:
+        </Text>
+        {members}
+      </Text>
+
+      <Space h="xs" />
+
+      <Text fz="sm">
+        <Text span fw={700} mr={5}>
+          Rank:
+        </Text>
+        {guildRankMap[rank as keyof typeof guildRankMap] || rank}
+      </Text>
+      <Text fz="sm">
+        <Text span fw={700} mr={5}>
+          Joined:
+        </Text>
+        {dayjs(joined).format(format)}
+      </Text>
+    </>
+  );
+};
+
+interface PlayerCardGuildProps {
+  name: string;
+  members: number;
+  rank: string;
+  joined: number;
+  tag: string;
+  tagColor: string;
+}
+
 interface PlayerCardProps {
   name: string;
   firstLogin: number;
@@ -212,6 +292,7 @@ interface PlayerCardProps {
   status: Session;
   rank: string;
   socials: SocialMedia;
+  guild: PlayerCardGuildProps | null;
   onCopy: () => void;
 }
 
@@ -225,6 +306,7 @@ export default function PlayerProfileCard({
   status,
   rank,
   socials,
+  guild,
   onCopy,
 }: PlayerCardProps) {
   const { classes, cx } = useStyles();
@@ -249,7 +331,11 @@ export default function PlayerProfileCard({
 
       <Group position="apart" my="sm">
         <div>
-          <PlayerName username={name} rank={rank} />
+          <PlayerName
+            username={name}
+            rank={rank}
+            guildTag={{ tag: guild?.tag, tagColor: guild?.tagColor }}
+          />
         </div>
         {status.online ? (
           <Popover
@@ -274,6 +360,7 @@ export default function PlayerProfileCard({
               <Text fz="sm" fw={500}>
                 Mode:{' '}
                 <Text span fz="sm" fw={400}>
+                  {/* TODO: Use a game type map instead of capitalizing */}
                   {capitalize(status.gameType)}
                 </Text>
               </Text>
@@ -323,6 +410,18 @@ export default function PlayerProfileCard({
           {dayjs(lastLogin).format(format)}
         </Text>
       </Card.Section>
+
+      {guild !== null && (
+        <Card.Section className={classes.guild}>
+          <PlayerGuild
+            username={name}
+            name={guild.name}
+            members={guild.members}
+            rank={guild.rank}
+            joined={guild.joined}
+          />
+        </Card.Section>
+      )}
 
       {(socials.links !== null || socials.links !== undefined) && (
         <Card.Section className={classes.socials}>

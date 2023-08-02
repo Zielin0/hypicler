@@ -34,6 +34,8 @@ export async function GET(request: NextRequest) {
     rank: playerGuildData?.members.find((member) => member.uuid === uuid)?.rank,
     joined: playerGuildData?.members.find((member) => member.uuid === uuid)
       ?.joined,
+    tag: playerGuildData?.tag,
+    tagColor: playerGuildData?.tagColor,
   };
   const guild =
     Object.keys(guildData).length === 0 ||
