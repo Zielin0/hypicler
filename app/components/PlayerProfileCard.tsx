@@ -1,4 +1,5 @@
 import PlayerName from '@/app/components/PlayerName';
+import TitleContent from '@/app/components/TitleContent';
 import { gameTypeMap, guildRankMap } from '@/app/types/Maps';
 import { PlayerCardGuildProps } from '@/app/types/PlayerCardGuildProps';
 import { copyMessage, format } from '@/app/utils/utils';
@@ -250,27 +251,15 @@ const PlayerGuild = ({
           {name}
         </Link>
       </Text>
-      <Text fz="sm">
-        <Text span fw={700} mr={5}>
-          Members:
-        </Text>
-        {members}
-      </Text>
+      <TitleContent title="Members" content={members} />
 
       <Space h="xs" />
 
-      <Text fz="sm">
-        <Text span fw={700} mr={5}>
-          Rank:
-        </Text>
-        {guildRankMap[rank as keyof typeof guildRankMap] || rank}
-      </Text>
-      <Text fz="sm">
-        <Text span fw={700} mr={5}>
-          Joined:
-        </Text>
-        {dayjs(joined).format(format)}
-      </Text>
+      <TitleContent
+        title="Rank"
+        content={guildRankMap[rank as keyof typeof guildRankMap] || rank}
+      />
+      <TitleContent title="Joined" content={dayjs(joined).format(format)} />
     </>
   );
 };
@@ -372,39 +361,23 @@ export default function PlayerProfileCard({
       </Group>
 
       <Card.Section className={classes.section}>
-        <Text fz="sm">
-          <Text span fw={700} mr={5}>
-            Level:
-          </Text>
-          {level.toFixed(2)}
-        </Text>
-        <Text fz="sm">
-          <Text span fw={700} mr={5}>
-            Karma:
-          </Text>
-          {karma.toLocaleString('en')}
-        </Text>
-        <Text fz="sm">
-          <Text span fw={700} mr={5}>
-            Achievement Points:
-          </Text>
-          {achievements.toLocaleString('en')}
-        </Text>
+        <TitleContent title="Level" content={level.toFixed(2)} />
+        <TitleContent title="Karma" content={karma.toLocaleString('en')} />
+        <TitleContent
+          title="Achievement Points"
+          content={achievements.toLocaleString('en')}
+        />
 
         <Space h="sm" />
 
-        <Text fz="sm">
-          <Text span fw={700} mr={5}>
-            First Login:
-          </Text>
-          {dayjs(firstLogin).format(format)}
-        </Text>
-        <Text fz="sm">
-          <Text span fw={700} mr={5}>
-            Last Login:
-          </Text>
-          {dayjs(lastLogin).format(format)}
-        </Text>
+        <TitleContent
+          title="First Login"
+          content={dayjs(firstLogin).format(format)}
+        />
+        <TitleContent
+          title="Last Login"
+          content={dayjs(lastLogin).format(format)}
+        />
       </Card.Section>
 
       {guild !== null && (

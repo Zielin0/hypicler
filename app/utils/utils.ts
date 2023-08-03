@@ -9,6 +9,10 @@ export function capitalize(s: string): string {
 
 export const format = 'DD MMM YYYY HH:mm:ss';
 
+export const fetcher: (...args: Parameters<typeof fetch>) => Promise<any> = (
+  ...args
+) => fetch(...args).then((res) => res.json());
+
 export const copyMessage = (copied: string) => {
   notifications.show({
     title: 'Success',
