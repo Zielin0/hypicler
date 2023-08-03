@@ -40,19 +40,6 @@ async function fetchData(url: string): Promise<PlayerDataResponse> {
   return await response.json();
 }
 
-function getRank(username: string, rank: string): string {
-  switch (username.toLowerCase()) {
-    case 'hypixel':
-    case 'rezzus':
-      return 'OWNER';
-    case 'technoblade':
-      return 'PIG';
-    default:
-      return rank;
-  }
-}
-
-// TODO: OWNER rank for hypixel & rezzus and PIG+++ rank for technoblade
 export default function Page({ params }: { params: { username: string } }) {
   const { classes, cx } = useStyles();
   const [data, setData] = useState<PlayerDataResponse | null>(null);
@@ -66,7 +53,7 @@ export default function Page({ params }: { params: { username: string } }) {
         );
         setData(fetched);
       } catch (error) {
-        setError('An error occurred while fetching data.');
+        setError('An error occurred while fetching data');
       }
     }
 
@@ -86,7 +73,7 @@ export default function Page({ params }: { params: { username: string } }) {
               karma={data.karma}
               achievements={data.achievements}
               status={data.status}
-              rank={getRank(data.name, data.rank)}
+              rank={data.rank}
               socials={data.socials}
               guild={data.guild}
             />
@@ -99,7 +86,7 @@ export default function Page({ params }: { params: { username: string } }) {
               color="red"
               pr="lg"
             >
-              {data.message}
+              {error !== null ? error : data.message}
             </Alert>
           </div>
         )

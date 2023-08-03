@@ -1,4 +1,5 @@
 import { Rank, guildTagMap, rankMap } from '@/app/types/Maps';
+import { getRank } from '@/app/utils/utils';
 import { Text } from '@mantine/core';
 
 interface GuildTag {
@@ -15,8 +16,9 @@ export default function PlayerName({
   rank: string;
   guildTag: GuildTag;
 }) {
+  const validRank = getRank(username, rank);
   const { name, color, borderColor, nameColor } = rankMap.find(
-    (item) => item.key === rank
+    (item) => item.key === validRank
   ) as Rank;
 
   return (

@@ -20,3 +20,15 @@ export const copyMessage = (copied: string) => {
     style: { bottom: rem(80) },
   });
 };
+
+export function getRank(username: string, rank: string): string {
+  switch (username.toLowerCase()) {
+    case 'hypixel':
+    case 'rezzus':
+      return 'OWNER';
+    case 'technoblade':
+      return 'PIG';
+    default:
+      return rank;
+  }
+}

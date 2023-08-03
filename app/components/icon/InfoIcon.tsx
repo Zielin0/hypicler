@@ -53,7 +53,7 @@ export default function InfoIcon() {
             <Modal.CloseButton />
           </Modal.Header>
           <Modal.Body>
-            If you encounter any issues please contact{' '}
+            If you encounter any issues or bugs please contact{' '}
             <Text span fw={500} title="Zielino's Github">
               <Anchor
                 href="https://github.com/Zielin0"
