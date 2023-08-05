@@ -1,12 +1,16 @@
 'use client';
 
 import BedwarsStats from '@/app/components/BedwarsStats';
+import DuelsStats from '@/app/components/DuelsStats';
 import PlayerProfileCard from '@/app/components/PlayerProfileCard';
 import SkywarsStats from '@/app/components/SkywarsStats';
+import WoolStats from '@/app/components/WoolStats';
 import { PlayerCardGuildProps } from '@/app/types/PlayerCardGuildProps';
 import {
   BedwarsDataResponse,
+  DuelsDataResponse,
   SkywarsDataResponse,
+  WoolDataResponse,
 } from '@/app/types/StatsProps';
 import { fetcher } from '@/app/utils/utils';
 import {
@@ -17,7 +21,13 @@ import {
   createStyles,
   rem,
 } from '@mantine/core';
-import { IconAlertCircle, IconBed, IconSword } from '@tabler/icons-react';
+import {
+  IconAlertCircle,
+  IconBed,
+  IconNeedleThread,
+  IconSword,
+  IconSwords,
+} from '@tabler/icons-react';
 import { Session, SocialMedia } from 'hypicle';
 import useSWR from 'swr';
 
@@ -34,7 +44,7 @@ const useStyles = createStyles((theme) => ({
   },
   profile: {
     [theme.fn.smallerThan('md')]: {
-      marginBottom: theme.spacing.md,
+      marginBottom: theme.spacing.lg,
     },
   },
   stats: {
@@ -73,6 +83,8 @@ interface PlayerDataResponse {
   stats: {
     bedwars: BedwarsDataResponse;
     skywars: SkywarsDataResponse;
+    duels: DuelsDataResponse;
+    wool: WoolDataResponse;
   };
 }
 
@@ -80,7 +92,10 @@ export default function Page({ params }: { params: { username: string } }) {
   const { classes, cx } = useStyles();
   const { data, error, isLoading } = useSWR<PlayerDataResponse>(
     `/api/player?username=${params.username}`,
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
   );
 
   if (isLoading)
@@ -140,6 +155,24 @@ export default function Page({ params }: { params: { username: string } }) {
             </Accordion.Control>
             <Accordion.Panel>
               <SkywarsStats {...data.stats.skywars} />
+            </Accordion.Panel>
+          </Accordion.Item>
+
+          <Accordion.Item value="duels">
+            <Accordion.Control icon={<IconSwords size={rem(30)} />}>
+              Duels
+            </Accordion.Control>
+            <Accordion.Panel>
+              <DuelsStats {...data.stats.duels} />
+            </Accordion.Panel>
+          </Accordion.Item>
+
+          <Accordion.Item value="wool">
+            <Accordion.Control icon={<IconNeedleThread size={rem(30)} />}>
+              Wool Wars
+            </Accordion.Control>
+            <Accordion.Panel>
+              <WoolStats {...data.stats.wool} />
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>

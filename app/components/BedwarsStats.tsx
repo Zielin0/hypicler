@@ -4,7 +4,6 @@ import { kd_ratio, wl_ratio } from '@/app/utils/utils';
 import { Card, Space, createStyles, rem } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
-  card: {},
   section: {
     padding: theme.spacing.sm,
     borderTop: `${rem(1)} solid ${
@@ -35,13 +34,7 @@ export default function BedwarsStats({
   const { classes, cx } = useStyles();
 
   return (
-    <Card
-      shadow="sm"
-      padding="md"
-      radius="sm"
-      withBorder
-      className={classes.card}
-    >
+    <Card shadow="sm" padding="md" radius="sm" withBorder>
       <Card.Section className={classes.section}>
         <TitleContent title="Level" content={level} />
         <TitleContent title="Coins" content={coins.toLocaleString('en')} />

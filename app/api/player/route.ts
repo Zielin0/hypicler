@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
         legendaries: (await sw.getSoulWellLegendaries()) || 0,
         rares: (await sw.getSoulWellRares()) || 0,
       },
-      eggs: await sw.getEggs(),
+      eggs: (await sw.getEggs()) || 0,
       enderpearls: (await sw.getEnderpearls()) || 0,
       arrows: {
         shot: (await sw.getArrowsShot()) || 0,
@@ -96,7 +96,37 @@ export async function GET(request: NextRequest) {
       },
     };
 
-    const stats = { bedwars, skywars };
+    const duelsData = await playerStats.getByName('Duels');
+    const duels = {
+      coins: duelsData?.coins || 0,
+      kills: duelsData?.kills || 0,
+      deaths: duelsData!.deaths - duelsData!.parkour_eight_deaths || 0,
+      wins: duelsData?.wins || 0,
+      losses: duelsData?.losses || 0,
+      arrows: {
+        shot: duelsData?.bow_shots || 0,
+        hit: duelsData?.bow_hits || 0,
+      },
+      melee: {
+        swung: duelsData?.melee_swings || 0,
+        hit: duelsData?.melee_hits || 0,
+      },
+    };
+    const woolData = await playerStats.getByName('WoolGames');
+    const wool = {
+      wool: woolData?.coins || 0,
+      exp: woolData?.progression.experience || 0,
+      kills: woolData?.wool_wars.stats.kills || 0,
+      assists: woolData?.wool_wars.stats.assists || 0,
+      deaths: woolData?.wool_wars.stats.deaths || 0,
+      wins: woolData?.wool_wars.stats.wins || 0,
+      played: woolData?.wool_wars.stats.games_played || 0,
+      woolPlaced: woolData?.wool_wars.stats.wool_placed || 0,
+      blocksBroken: woolData?.wool_wars.stats.blocks_broken || 0,
+      powerups: woolData?.wool_wars.stats.powerups_gotten || 0,
+    };
+
+    const stats = { bedwars, skywars, duels, wool };
 
     return NextResponse.json({
       success: true,
