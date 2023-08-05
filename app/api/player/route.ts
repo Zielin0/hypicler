@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
         : { ...socialsData, links: null };
 
     const firstLogin = (await player.get()).firstLogin;
-    const lastLogin = (await player.get()).lastLogin;
+    const lastLogin = (await player.get()).lastLogin || null;
 
     const achievements = (await player.get()).achievementPoints || 0;
 
@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
 
     const skywars = {
       coins: (await sw.getCoins()) || 0,
-      level: customToFixed((await sw.getLevel()) || 0),
+      level: customToFixed((await sw.getLevel()) || 0) || 0,
       winstreak: (await sw.getWinstreak()) || 0,
       kills: (await sw.getKills()) || 0,
       assists: (await sw.getAssists()) || 0,
@@ -100,7 +100,9 @@ export async function GET(request: NextRequest) {
     const duels = {
       coins: duelsData?.coins || 0,
       kills: duelsData?.kills || 0,
-      deaths: duelsData!.deaths - duelsData!.parkour_eight_deaths || 0,
+      deaths: duelsData
+        ? (duelsData.deaths || 0) - (duelsData.parkour_eight_deaths || 0)
+        : 0,
       wins: duelsData?.wins || 0,
       losses: duelsData?.losses || 0,
       arrows: {
@@ -112,21 +114,68 @@ export async function GET(request: NextRequest) {
         hit: duelsData?.melee_hits || 0,
       },
     };
+
     const woolData = await playerStats.getByName('WoolGames');
     const wool = {
       wool: woolData?.coins || 0,
       exp: woolData?.progression.experience || 0,
-      kills: woolData?.wool_wars.stats.kills || 0,
-      assists: woolData?.wool_wars.stats.assists || 0,
-      deaths: woolData?.wool_wars.stats.deaths || 0,
-      wins: woolData?.wool_wars.stats.wins || 0,
-      played: woolData?.wool_wars.stats.games_played || 0,
-      woolPlaced: woolData?.wool_wars.stats.wool_placed || 0,
-      blocksBroken: woolData?.wool_wars.stats.blocks_broken || 0,
-      powerups: woolData?.wool_wars.stats.powerups_gotten || 0,
+      kills: woolData?.wool_wars?.stats.kills || 0,
+      assists: woolData?.wool_wars?.stats.assists || 0,
+      deaths: woolData?.wool_wars?.stats.deaths || 0,
+      wins: woolData?.wool_wars?.stats.wins || 0,
+      played: woolData?.wool_wars?.stats.games_played || 0,
+      woolPlaced: woolData?.wool_wars?.stats.wool_placed || 0,
+      blocksBroken: woolData?.wool_wars?.stats.blocks_broken || 0,
+      powerups: woolData?.wool_wars?.stats.powerups_gotten || 0,
     };
 
-    const stats = { bedwars, skywars, duels, wool };
+    const mcgoData = await playerStats.getByName('MCGO');
+    const mcgo = {
+      coins: mcgoData?.coins || 0,
+      kills: mcgoData!.kills_deathmatch + mcgoData!.kills || 0,
+      headshots: mcgoData?.headshot_kills || 0,
+      deaths: mcgoData?.deaths || 0,
+      gameWins: mcgoData?.game_wins || 0,
+      played: mcgoData?.game_plays || 0,
+      roundWins: mcgoData?.round_wins || 0,
+      shots: mcgoData?.shots_fired || 0,
+      dmKills: mcgoData?.kills_deathmatch || 0,
+      bombsPlanted: mcgoData?.bombs_planted || 0,
+      bombsDefused: mcgoData?.bombs_defused || 0,
+    };
+
+    const tntData = await playerStats.getByName('TNTGames');
+    const tnt = {
+      coins: tntData?.coins || 0,
+      tntRun: {
+        wins: tntData?.wins_tntrun || 0,
+        deaths: tntData?.deaths_tntrun || 0,
+        record: tntData?.record_tntrun || 0,
+      },
+      pvpRun: {
+        wins: tntData?.wins_pvprun || 0,
+        kills: tntData?.kills_pvprun || 0,
+        deaths: tntData?.deaths_pvprun || 0,
+        record: tntData?.record_pvprun || 0,
+      },
+      tntag: {
+        wins: tntData?.wins_tntag || 0,
+        kills: tntData?.kills_tntag || 0,
+        deaths: tntData?.deaths_tntag || 0,
+      },
+      bowspleef: {
+        wins: tntData?.wins_bowspleef || 0,
+        losses: tntData?.deaths_bowspleef || 0,
+      },
+      wizards: {
+        wins: tntData?.wins_capture || 0,
+        kills: tntData?.kills_capture || 0,
+        assists: tntData?.assists_capture || 0,
+        deaths: tntData?.deaths_capture || 0,
+      },
+    };
+
+    const stats = { bedwars, skywars, duels, wool, mcgo, tnt };
 
     return NextResponse.json({
       success: true,

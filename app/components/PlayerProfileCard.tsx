@@ -388,10 +388,12 @@ export default function PlayerProfileCard({
           title="First Login"
           content={dayjs(firstLogin).format(format)}
         />
-        <TitleContent
-          title="Last Login"
-          content={dayjs(lastLogin).format(format)}
-        />
+        {lastLogin !== null && (
+          <TitleContent
+            title="Last Login"
+            content={dayjs(lastLogin).format(format)}
+          />
+        )}
       </Card.Section>
 
       {guild !== null && (

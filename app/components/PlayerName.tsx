@@ -47,7 +47,10 @@ export default function PlayerName({
           fz="md"
           span
           ml={5}
-          color={guildTagMap[guildTag.tagColor as keyof typeof guildTagMap]}
+          color={
+            guildTagMap[guildTag.tagColor as keyof typeof guildTagMap] ||
+            guildTagMap['GRAY']
+          }
         >
           [{guildTag.tag}]
         </Text>

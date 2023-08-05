@@ -16,7 +16,7 @@
     "@mantine/notifications": "^6.0.17",
     "@tabler/icons-react": "^2.30.0",
     "dayjs": "^1.11.9",
-    "hypicle": "^1.0.2",
+    "hypicle": "^1.0.3",
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",

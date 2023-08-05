@@ -2,14 +2,18 @@
 
 import BedwarsStats from '@/app/components/BedwarsStats';
 import DuelsStats from '@/app/components/DuelsStats';
+import McgoStats from '@/app/components/McgoStats';
 import PlayerProfileCard from '@/app/components/PlayerProfileCard';
 import SkywarsStats from '@/app/components/SkywarsStats';
+import TntStats from '@/app/components/TntStats';
 import WoolStats from '@/app/components/WoolStats';
 import { PlayerCardGuildProps } from '@/app/types/PlayerCardGuildProps';
 import {
   BedwarsDataResponse,
   DuelsDataResponse,
+  McgoDataResponse,
   SkywarsDataResponse,
+  TNTGamesResponse,
   WoolDataResponse,
 } from '@/app/types/StatsProps';
 import { fetcher } from '@/app/utils/utils';
@@ -24,9 +28,11 @@ import {
 import {
   IconAlertCircle,
   IconBed,
+  IconBomb,
   IconNeedleThread,
   IconSword,
   IconSwords,
+  IconTank,
 } from '@tabler/icons-react';
 import { Session, SocialMedia } from 'hypicle';
 import useSWR from 'swr';
@@ -85,6 +91,8 @@ interface PlayerDataResponse {
     skywars: SkywarsDataResponse;
     duels: DuelsDataResponse;
     wool: WoolDataResponse;
+    mcgo: McgoDataResponse;
+    tnt: TNTGamesResponse;
   };
 }
 
@@ -173,6 +181,24 @@ export default function Page({ params }: { params: { username: string } }) {
             </Accordion.Control>
             <Accordion.Panel>
               <WoolStats {...data.stats.wool} />
+            </Accordion.Panel>
+          </Accordion.Item>
+
+          <Accordion.Item value="mcgo">
+            <Accordion.Control icon={<IconTank size={rem(30)} />}>
+              Cops and Crims
+            </Accordion.Control>
+            <Accordion.Panel>
+              <McgoStats {...data.stats.mcgo} />
+            </Accordion.Panel>
+          </Accordion.Item>
+
+          <Accordion.Item value="tnt">
+            <Accordion.Control icon={<IconBomb size={rem(30)} />}>
+              TNT Games
+            </Accordion.Control>
+            <Accordion.Panel>
+              <TntStats {...data.stats.tnt} />
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>

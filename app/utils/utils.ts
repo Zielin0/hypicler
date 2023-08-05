@@ -1,6 +1,8 @@
 import { rem } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 import React from 'react';
 
 export function capitalize(s: string): string {
@@ -47,4 +49,9 @@ export function wl_ratio(wins: number, losses: number): string {
 
 export function hm_ratio(hit: number, attempt: number): string {
   return attempt !== 0 ? (hit / attempt).toFixed(2) : '0.00';
+}
+
+export function secondsToMMSS(seconds: number): string {
+  dayjs.extend(duration);
+  return dayjs.duration(seconds, 'seconds').format('mm:ss');
 }
