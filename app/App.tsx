@@ -22,7 +22,7 @@ export default function App({ children }: { children: React.ReactNode }) {
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
-  const mobile = useMediaQuery('(max-width: 767px)');
+  const mobile = useMediaQuery('(max-width: 880px)');
   const [opened, setOpened] = useState(true);
 
   useEffect(() => {

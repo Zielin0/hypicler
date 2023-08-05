@@ -27,7 +27,7 @@ export default function PlayerName({
         <Text span color={borderColor}>
           [
           <Text span color={color}>
-            {rank === 'PIG' ? (
+            {validRank === 'PIG' ? (
               <Text span>
                 {name.split('+++')}
                 <Text span color="#66D9E8">

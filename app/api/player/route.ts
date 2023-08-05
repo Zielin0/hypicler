@@ -1,5 +1,5 @@
-import { getUUIDByName } from '@/app/api/utils';
-import { Hypicle, Player } from 'hypicle';
+import { customToFixed, getUUIDByName } from '@/app/api/utils';
+import { Hypicle, HypicleError, Player } from 'hypicle';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -51,6 +51,53 @@ export async function GET(request: NextRequest) {
         ? null
         : guildData;
 
+    const playerStats = player.getStats();
+    const bw = playerStats.getBedwars();
+    const sw = playerStats.getSkyWars();
+
+    const bedwars = {
+      coins: (await bw.getCoins()) || 0,
+      level: (await bw.getLevel()) || 0,
+      winstreak: (await bw.getWinstreak()) || 0,
+      emeralds: (await bw.getEmeraldsCollected()) || 0,
+      diamonds: (await bw.getDiamondsCollected()) || 0,
+      gold: (await bw.getGoldCollected()) || 0,
+      iron: (await bw.getIronCollected()) || 0,
+      kills: (await bw.getKills()) || 0,
+      finalKills: (await bw.getFinalKills()) || 0,
+      deaths: (await bw.getDeaths()) || 0,
+      finalDeaths: (await bw.getFinalDeaths()) || 0,
+      wins: (await bw.getWins()) || 0,
+      losses: (await bw.getLosses()) || 0,
+      bedsBroken: (await bw.getBedsBroken()) || 0,
+    };
+
+    const skywars = {
+      coins: (await sw.getCoins()) || 0,
+      level: customToFixed((await sw.getLevel()) || 0),
+      winstreak: (await sw.getWinstreak()) || 0,
+      kills: (await sw.getKills()) || 0,
+      assists: (await sw.getAssists()) || 0,
+      deaths: (await sw.getDeaths()) || 0,
+      wins: (await sw.getWins()) || 0,
+      losses: (await sw.getLosses()) || 0,
+      souls: (await sw.getSouls()) || 0,
+      soulsGathered: (await sw.getSoulsGathered()) || 0,
+      soulWell: {
+        uses: (await sw.getSoulWellUses()) || 0,
+        legendaries: (await sw.getSoulWellLegendaries()) || 0,
+        rares: (await sw.getSoulWellRares()) || 0,
+      },
+      eggs: await sw.getEggs(),
+      enderpearls: (await sw.getEnderpearls()) || 0,
+      arrows: {
+        shot: (await sw.getArrowsShot()) || 0,
+        hit: (await sw.getArrowsHit()) || 0,
+      },
+    };
+
+    const stats = { bedwars, skywars };
+
     return NextResponse.json({
       success: true,
       uuid,
@@ -64,11 +111,20 @@ export async function GET(request: NextRequest) {
       rank,
       socials,
       guild,
+      stats,
     });
-  } catch (error) {
-    return NextResponse.json({
-      success: false,
-      message: "This player doesn't exist.",
-    });
+  } catch (err: any) {
+    console.error(err);
+    const error = err as HypicleError;
+    if (error.status === 400)
+      return NextResponse.json({
+        success: false,
+        message: "This player doesn't exist.",
+      });
+    else
+      return NextResponse.json({
+        success: false,
+        message: 'An error occurred while fetching data.',
+      });
   }
 }

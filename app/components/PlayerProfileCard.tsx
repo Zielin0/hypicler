@@ -79,6 +79,12 @@ const socialMap = [
 const useStyles = createStyles((theme) => ({
   card: {
     width: 375,
+    [theme.fn.smallerThan('lg')]: {
+      width: 350,
+    },
+    [theme.fn.smallerThan('sm')]: {
+      width: 290,
+    },
   },
   avatar: {
     padding: theme.spacing.md,
@@ -97,6 +103,13 @@ const useStyles = createStyles((theme) => ({
     borderBottom: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
+  },
+  nameContainer: {
+    [theme.fn.smallerThan('lg')]: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
   },
   guild: {
     padding: theme.spacing.md,
@@ -183,7 +196,6 @@ const PlayerSocialLinks = ({ socials }: PlayerSocialsProps) => {
             }}
           >
             <Text fz="sm">
-              Discord:{' '}
               <Text span fw={700}>
                 {socials.links[key]}
               </Text>
@@ -196,6 +208,7 @@ const PlayerSocialLinks = ({ socials }: PlayerSocialsProps) => {
       </div>
     ) : (
       <Tooltip
+        key={key}
         label={title}
         styles={(theme) => ({
           tooltip: {
@@ -309,7 +322,7 @@ export default function PlayerProfileCard({
         />
       </Card.Section>
 
-      <Group position="apart" my="sm">
+      <Group position="apart" my="sm" className={classes.nameContainer}>
         <div>
           <PlayerName
             username={name}
@@ -343,14 +356,15 @@ export default function PlayerProfileCard({
                   {gameTypeMap[status.gameType as keyof typeof gameTypeMap]}
                 </Text>
               </Text>
-              {status.gameType !== 'HOUSING' && (
-                <Text fz="sm" fw={500}>
-                  Map:{' '}
-                  <Text span fz="sm" fw={400}>
-                    {status.map}
+              {status.gameType !== 'HOUSING' &&
+                status.gameType !== 'SKYBLOCK' && (
+                  <Text fz="sm" fw={500}>
+                    Map:{' '}
+                    <Text span fz="sm" fw={400}>
+                      {status.map}
+                    </Text>
                   </Text>
-                </Text>
-              )}
+                )}
             </Popover.Dropdown>
           </Popover>
         ) : (

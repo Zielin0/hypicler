@@ -36,3 +36,15 @@ export function getRank(username: string, rank: string): string {
       return rank;
   }
 }
+
+export function kd_ratio(kills: number, deaths: number): string {
+  return deaths !== 0 ? (kills / deaths).toFixed(2) : '0.00';
+}
+
+export function wl_ratio(wins: number, losses: number): string {
+  return losses !== 0 ? (wins / losses).toFixed(2) : '0.00';
+}
+
+export function hm_ratio(hit: number, attempt: number): string {
+  return attempt !== 0 ? (hit / attempt).toFixed(2) : '0.00';
+}
