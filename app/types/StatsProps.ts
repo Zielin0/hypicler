@@ -111,3 +111,21 @@ export interface TNTGamesResponse {
     deaths: number;
   };
 }
+
+export interface ArcadeData {
+  coins: number;
+  pixelParty: {
+    wins: number;
+    played: number;
+    powerups: number;
+  };
+  hns: {
+    seekerWins: number;
+    hiderWins: number;
+    ppSeekerWins: number;
+    ppHiderWins: number;
+  };
+  winsHypixelSays: number;
+  winsMiniWalls: number;
+  winsPartyGames: number;
+}

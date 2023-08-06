@@ -60,7 +60,10 @@ export default function Page() {
   const { classes, cx } = useStyles();
   const { data, error, isLoading } = useSWR<PunishmentsDataResponse>(
     '/api/punishments',
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
   );
 
   if (isLoading)

@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     const player = new Player(client, uuid);
 
     const name = await player.getName();
-    const level = await player.getExactLevel();
+    const level = (await player.getExactLevel()) || 1;
     const karma = (await player.getKarma()) || 0;
 
     const status = await player.getStatus();
@@ -132,7 +132,9 @@ export async function GET(request: NextRequest) {
     const mcgoData = await playerStats.getByName('MCGO');
     const mcgo = {
       coins: mcgoData?.coins || 0,
-      kills: mcgoData!.kills_deathmatch + mcgoData!.kills || 0,
+      kills: mcgoData
+        ? (mcgoData.kills_deathmatch || 0) + (mcgoData.kills || 0)
+        : 0,
       headshots: mcgoData?.headshot_kills || 0,
       deaths: mcgoData?.deaths || 0,
       gameWins: mcgoData?.game_wins || 0,
@@ -175,7 +177,26 @@ export async function GET(request: NextRequest) {
       },
     };
 
-    const stats = { bedwars, skywars, duels, wool, mcgo, tnt };
+    const arcadeData = await playerStats.getByName('Arcade');
+    const arcade = {
+      coins: arcadeData?.coins || 0,
+      pixelParty: {
+        wins: arcadeData?.pixel_party?.wins || 0,
+        played: arcadeData?.pixel_party?.games_played || 0,
+        powerups: arcadeData?.pixel_party?.power_ups_collected || 0,
+      },
+      hns: {
+        seekerWins: arcadeData?.seeker_wins_hide_and_seek || 0,
+        hiderWins: arcadeData?.hider_wins_hide_and_seek || 0,
+        ppSeekerWins: arcadeData?.party_pooper_seeker_wins_hide_and_seek || 0,
+        ppHiderWins: arcadeData?.party_pooper_hider_wins_hide_and_seek || 0,
+      },
+      winsHypixelSays: arcadeData?.wins_simon_says || 0,
+      winsMiniWalls: arcadeData?.wins_mini_walls || 0,
+      winsPartyGames: arcadeData?.wins_party || 0,
+    };
+
+    const stats = { bedwars, skywars, duels, wool, mcgo, tnt, arcade };
 
     return NextResponse.json({
       success: true,

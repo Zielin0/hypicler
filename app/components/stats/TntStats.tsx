@@ -73,7 +73,7 @@ export default function TntStats({
           content={tntag.kills.toLocaleString('en')}
         />
         <TitleContent
-          title="TNTag Wins"
+          title="TNTag Deaths"
           content={tntag.deaths.toLocaleString('en')}
         />
       </Card.Section>

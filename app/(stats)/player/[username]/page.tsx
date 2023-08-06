@@ -1,14 +1,16 @@
 'use client';
 
-import BedwarsStats from '@/app/components/BedwarsStats';
-import DuelsStats from '@/app/components/DuelsStats';
-import McgoStats from '@/app/components/McgoStats';
 import PlayerProfileCard from '@/app/components/PlayerProfileCard';
-import SkywarsStats from '@/app/components/SkywarsStats';
-import TntStats from '@/app/components/TntStats';
-import WoolStats from '@/app/components/WoolStats';
+import ArcadeStats from '@/app/components/stats/ArcadeStats';
+import BedwarsStats from '@/app/components/stats/BedwarsStats';
+import DuelsStats from '@/app/components/stats/DuelsStats';
+import McgoStats from '@/app/components/stats/McgoStats';
+import SkywarsStats from '@/app/components/stats/SkywarsStats';
+import TntStats from '@/app/components/stats/TntStats';
+import WoolStats from '@/app/components/stats/WoolStats';
 import { PlayerCardGuildProps } from '@/app/types/PlayerCardGuildProps';
 import {
+  ArcadeData,
   BedwarsDataResponse,
   DuelsDataResponse,
   McgoDataResponse,
@@ -29,6 +31,7 @@ import {
   IconAlertCircle,
   IconBed,
   IconBomb,
+  IconBrandAppleArcade,
   IconNeedleThread,
   IconSword,
   IconSwords,
@@ -93,8 +96,48 @@ interface PlayerDataResponse {
     wool: WoolDataResponse;
     mcgo: McgoDataResponse;
     tnt: TNTGamesResponse;
+    arcade: ArcadeData;
   };
 }
+
+const stats = [
+  {
+    key: 'bedwars',
+    title: 'Bed Wars',
+    icon: IconBed,
+  },
+  {
+    key: 'skywars',
+    title: 'Sky Wars',
+    icon: IconSword,
+  },
+  {
+    key: 'duels',
+    title: 'Duels',
+    icon: IconSwords,
+  },
+  {
+    key: 'wool',
+    title: 'Wool Wars',
+    icon: IconNeedleThread,
+  },
+  {
+    key: 'mcgo',
+    title: 'Cops and Crims',
+    icon: IconTank,
+  },
+  {
+    key: 'tnt',
+    title: 'TNT Games',
+    icon: IconBomb,
+    component: TntStats,
+  },
+  {
+    key: 'arcade',
+    title: 'Arcade',
+    icon: IconBrandAppleArcade,
+  },
+];
 
 export default function Page({ params }: { params: { username: string } }) {
   const { classes, cx } = useStyles();
@@ -130,6 +173,24 @@ export default function Page({ params }: { params: { username: string } }) {
       </div>
     );
 
+  const sorted = [...stats].sort((a, b) => a.title.localeCompare(b.title));
+  const items = sorted.map((item) => (
+    <Accordion.Item key={item.key} value={item.key}>
+      <Accordion.Control icon={<item.icon size={rem(30)} />}>
+        {item.title}
+      </Accordion.Control>
+      <Accordion.Panel>
+        {item.key === 'bedwars' && <BedwarsStats {...data.stats.bedwars} />}
+        {item.key === 'skywars' && <SkywarsStats {...data.stats.skywars} />}
+        {item.key === 'duels' && <DuelsStats {...data.stats.duels} />}
+        {item.key === 'wool' && <WoolStats {...data.stats.wool} />}
+        {item.key === 'mcgo' && <McgoStats {...data.stats.mcgo} />}
+        {item.key === 'tnt' && <TntStats {...data.stats.tnt} />}
+        {item.key === 'arcade' && <ArcadeStats {...data.stats.arcade} />}
+      </Accordion.Panel>
+    </Accordion.Item>
+  ));
+
   return (
     <ScrollArea h={750}>
       <div className={classes.root}>
@@ -148,59 +209,7 @@ export default function Page({ params }: { params: { username: string } }) {
           />
         </div>
         <Accordion variant="separated" className={classes.stats}>
-          <Accordion.Item value="bedwars">
-            <Accordion.Control icon={<IconBed size={rem(30)} />}>
-              Bed Wars
-            </Accordion.Control>
-            <Accordion.Panel>
-              <BedwarsStats {...data.stats.bedwars} />
-            </Accordion.Panel>
-          </Accordion.Item>
-
-          <Accordion.Item value="skywars">
-            <Accordion.Control icon={<IconSword size={rem(30)} />}>
-              Sky Wars
-            </Accordion.Control>
-            <Accordion.Panel>
-              <SkywarsStats {...data.stats.skywars} />
-            </Accordion.Panel>
-          </Accordion.Item>
-
-          <Accordion.Item value="duels">
-            <Accordion.Control icon={<IconSwords size={rem(30)} />}>
-              Duels
-            </Accordion.Control>
-            <Accordion.Panel>
-              <DuelsStats {...data.stats.duels} />
-            </Accordion.Panel>
-          </Accordion.Item>
-
-          <Accordion.Item value="wool">
-            <Accordion.Control icon={<IconNeedleThread size={rem(30)} />}>
-              Wool Wars
-            </Accordion.Control>
-            <Accordion.Panel>
-              <WoolStats {...data.stats.wool} />
-            </Accordion.Panel>
-          </Accordion.Item>
-
-          <Accordion.Item value="mcgo">
-            <Accordion.Control icon={<IconTank size={rem(30)} />}>
-              Cops and Crims
-            </Accordion.Control>
-            <Accordion.Panel>
-              <McgoStats {...data.stats.mcgo} />
-            </Accordion.Panel>
-          </Accordion.Item>
-
-          <Accordion.Item value="tnt">
-            <Accordion.Control icon={<IconBomb size={rem(30)} />}>
-              TNT Games
-            </Accordion.Control>
-            <Accordion.Panel>
-              <TntStats {...data.stats.tnt} />
-            </Accordion.Panel>
-          </Accordion.Item>
+          {items}
         </Accordion>
       </div>
     </ScrollArea>
