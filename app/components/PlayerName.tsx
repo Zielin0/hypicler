@@ -1,6 +1,7 @@
 import { Rank, guildTagMap, plusColorMap, rankMap } from '@/app/types/Maps';
 import { getRank } from '@/app/utils/utils';
 import { Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 
 const RankDisplay = ({
   rankKey,
@@ -72,6 +73,8 @@ export default function PlayerName({
     (item) => item.key === validRank
   ) as Rank;
 
+  const mobile = useMediaQuery('(max-width: 880px)');
+
   return (
     <Text fz="md" color={nameColor}>
       <Text span fw={700} mr={5}>
@@ -87,7 +90,7 @@ export default function PlayerName({
         </Text>
       </Text>
       {username}
-      {guildTag.tag !== undefined && (
+      {guildTag.tag && (mobile ? guildTag.tag.length <= 4 : true) && (
         <Text
           fz="md"
           span

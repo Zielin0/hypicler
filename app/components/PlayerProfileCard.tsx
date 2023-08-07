@@ -324,7 +324,11 @@ export default function PlayerProfileCard({
         />
       </Card.Section>
 
-      <Group position="apart" my="sm" className={classes.nameContainer}>
+      <Group
+        position={name.length >= 12 ? 'center' : 'apart'}
+        my="sm"
+        className={classes.nameContainer}
+      >
         <div>
           <PlayerName
             username={name}
