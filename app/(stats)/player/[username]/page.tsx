@@ -87,6 +87,7 @@ interface PlayerDataResponse {
   achievements: number;
   status: Session;
   rank: string;
+  plusColor: string;
   socials: SocialMedia;
   guild: PlayerCardGuildProps | null;
   stats: {
@@ -204,6 +205,7 @@ export default function Page({ params }: { params: { username: string } }) {
             achievements={data.achievements}
             status={data.status}
             rank={data.rank}
+            plusColor={data.plusColor}
             socials={data.socials}
             guild={data.guild}
           />

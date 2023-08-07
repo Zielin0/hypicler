@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
 
     const status = await player.getStatus();
     const rank = await player.getHighestRank();
+    const plusColor = (await player.getPlusColor()) || 'NONE';
     const socialsData = await player.getSocialMedia();
     const socials =
       socialsData !== null && socialsData.hasOwnProperty('links')
@@ -118,7 +119,7 @@ export async function GET(request: NextRequest) {
     const woolData = await playerStats.getByName('WoolGames');
     const wool = {
       wool: woolData?.coins || 0,
-      exp: woolData?.progression.experience || 0,
+      exp: woolData?.progression?.experience || 0,
       kills: woolData?.wool_wars?.stats.kills || 0,
       assists: woolData?.wool_wars?.stats.assists || 0,
       deaths: woolData?.wool_wars?.stats.deaths || 0,
@@ -209,6 +210,7 @@ export async function GET(request: NextRequest) {
       achievements,
       status,
       rank,
+      plusColor,
       socials,
       guild,
       stats,

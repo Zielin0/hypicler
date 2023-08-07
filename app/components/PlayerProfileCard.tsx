@@ -286,6 +286,7 @@ interface PlayerCardProps {
   achievements: number;
   status: Session;
   rank: string;
+  plusColor: string;
   socials: SocialMedia;
   guild: PlayerCardGuildProps | null;
 }
@@ -299,6 +300,7 @@ export default function PlayerProfileCard({
   achievements,
   status,
   rank,
+  plusColor,
   socials,
   guild,
 }: PlayerCardProps) {
@@ -327,6 +329,7 @@ export default function PlayerProfileCard({
           <PlayerName
             username={name}
             rank={rank}
+            plusColor={plusColor}
             guildTag={{ tag: guild?.tag, tagColor: guild?.tagColor }}
           />
         </div>
@@ -408,11 +411,13 @@ export default function PlayerProfileCard({
         </Card.Section>
       )}
 
-      {socials !== null && socials.links !== null && (
-        <Card.Section className={classes.socials}>
-          <PlayerSocialLinks socials={socials} />
-        </Card.Section>
-      )}
+      {socials !== null &&
+        socials.links !== null &&
+        Object.keys(socials.links).length > 0 && (
+          <Card.Section className={classes.socials}>
+            <PlayerSocialLinks socials={socials} />
+          </Card.Section>
+        )}
     </Card>
   );
 }

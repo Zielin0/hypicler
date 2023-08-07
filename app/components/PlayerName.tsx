@@ -1,6 +1,55 @@
-import { Rank, guildTagMap, rankMap } from '@/app/types/Maps';
+import { Rank, guildTagMap, plusColorMap, rankMap } from '@/app/types/Maps';
 import { getRank } from '@/app/utils/utils';
 import { Text } from '@mantine/core';
+
+const RankDisplay = ({
+  rankKey,
+  rank,
+  color,
+  plusColor,
+}: {
+  rankKey: string;
+  rank: string;
+  color: string;
+  plusColor: string;
+}) => {
+  switch (rankKey) {
+    case 'VIP_PLUS':
+    case 'MVP_PLUS':
+      return (
+        <Text span color={color}>
+          {rank.split('+')}
+          <Text span color={plusColor}>
+            {rank.split(rankKey.split('_PLUS')[0])}
+          </Text>
+        </Text>
+      );
+    case 'SUPERSTAR':
+      return (
+        <Text span color={color}>
+          {rank.split('++')}
+          <Text span color={plusColor}>
+            {rank.split('MVP')}
+          </Text>
+        </Text>
+      );
+    case 'PIG':
+      return (
+        <Text span color={color}>
+          {rank.split('+++')}
+          <Text span color="#66D9E8">
+            {rank.split('PIG')}
+          </Text>
+        </Text>
+      );
+    default:
+      return (
+        <Text span color={color}>
+          {rank}
+        </Text>
+      );
+  }
+};
 
 interface GuildTag {
   tag: string | undefined;
@@ -10,10 +59,12 @@ interface GuildTag {
 export default function PlayerName({
   username,
   rank,
+  plusColor,
   guildTag,
 }: {
   username: string;
   rank: string;
+  plusColor: string;
   guildTag: GuildTag;
 }) {
   const validRank = getRank(username, rank);
@@ -26,18 +77,12 @@ export default function PlayerName({
       <Text span fw={700} mr={5}>
         <Text span color={borderColor}>
           [
-          <Text span color={color}>
-            {validRank === 'PIG' ? (
-              <Text span>
-                {name.split('+++')}
-                <Text span color="#66D9E8">
-                  {name.split('PIG')}
-                </Text>
-              </Text>
-            ) : (
-              <Text span>{name}</Text>
-            )}
-          </Text>
+          <RankDisplay
+            rankKey={validRank}
+            rank={name}
+            color={color}
+            plusColor={plusColorMap[plusColor as keyof typeof plusColorMap]}
+          />
           ]
         </Text>
       </Text>

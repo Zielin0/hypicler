@@ -92,6 +92,22 @@ export const guildTagMap = {
   YELLOW: '#FFD43B',
 };
 
+export const plusColorMap = {
+  RED: '#FA5252',
+  GOLD: '#FAB005',
+  GREEN: '#82C91E',
+  YELLOW: '#FFD43B',
+  LIGHT_PURPLE: '#DA77F2',
+  WHITE: '#E9ECEF',
+  BLUE: '#4C6EF5',
+  DARK_GREEN: '#099268',
+  DARK_RED: '#A70808',
+  DARK_AQUA: '#0B7285',
+  DARK_PURPLE: '#862E9C',
+  DARK_GRAY: '#495057',
+  BLACK: '#141517',
+};
+
 export const gameTypeMap = {
   QUAKECRAFT: 'Quake',
   WALLS: 'Walls',
