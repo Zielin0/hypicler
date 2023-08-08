@@ -50,7 +50,10 @@ export default function WoolStats({
           title="Games Played"
           content={played.toLocaleString('en')}
         />
-        <TitleContent title="W/L Ratio" content={wl_ratio(wins, played)} />
+        <TitleContent
+          title="W/L Ratio"
+          content={wl_ratio(wins, played - wins)}
+        />
       </Card.Section>
       <Card.Section className={classes.section}>
         <TitleContent

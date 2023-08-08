@@ -8,7 +8,7 @@ import McgoStats from '@/app/components/stats/McgoStats';
 import SkywarsStats from '@/app/components/stats/SkywarsStats';
 import TntStats from '@/app/components/stats/TntStats';
 import WoolStats from '@/app/components/stats/WoolStats';
-import { PlayerCardGuildProps } from '@/app/types/PlayerCardGuildProps';
+import { PlayerCardGuildProps } from '@/app/types/GuildProps';
 import {
   ArcadeData,
   BedwarsDataResponse,

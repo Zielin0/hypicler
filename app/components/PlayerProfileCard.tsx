@@ -1,8 +1,8 @@
 import PlayerName from '@/app/components/PlayerName';
 import TitleContent from '@/app/components/TitleContent';
+import { PlayerCardGuildProps } from '@/app/types/GuildProps';
 import { gameTypeMap, guildRankMap } from '@/app/types/Maps';
-import { PlayerCardGuildProps } from '@/app/types/PlayerCardGuildProps';
-import { copyMessage, format } from '@/app/utils/utils';
+import { copyMessage, dateFormat } from '@/app/utils/utils';
 import {
   ActionIcon,
   Badge,
@@ -272,7 +272,7 @@ const PlayerGuild = ({
         title="Rank"
         content={guildRankMap[rank as keyof typeof guildRankMap] || rank}
       />
-      <TitleContent title="Joined" content={dayjs(joined).format(format)} />
+      <TitleContent title="Joined" content={dayjs(joined).format(dateFormat)} />
     </>
   );
 };
@@ -393,12 +393,12 @@ export default function PlayerProfileCard({
 
         <TitleContent
           title="First Login"
-          content={dayjs(firstLogin).format(format)}
+          content={dayjs(firstLogin).format(dateFormat)}
         />
         {lastLogin !== null && (
           <TitleContent
             title="Last Login"
-            content={dayjs(lastLogin).format(format)}
+            content={dayjs(lastLogin).format(dateFormat)}
           />
         )}
       </Card.Section>

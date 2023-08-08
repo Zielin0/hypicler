@@ -6,3 +6,8 @@ export interface PlayerCardGuildProps {
   tag: string;
   tagColor: string;
 }
+
+export interface GuildTag {
+  tag: string | undefined;
+  tagColor: string | undefined;
+}

@@ -54,7 +54,10 @@ export default function McgoStats({
           title="Games Played"
           content={played.toLocaleString('en')}
         />
-        <TitleContent title="W/L Ratio" content={wl_ratio(gameWins, played)} />
+        <TitleContent
+          title="W/L Ratio"
+          content={wl_ratio(gameWins, played - gameWins)}
+        />
         <TitleContent
           title="Round Wins"
           content={roundWins.toLocaleString('en')}

@@ -15,6 +15,13 @@ export const rankMap: Rank[] = [
     nameColor: '#909296',
   },
   {
+    key: 'NORMAL',
+    name: 'NORMAL',
+    color: '#909296',
+    borderColor: '#909296',
+    nameColor: '#909296',
+  },
+  {
     key: 'VIP',
     name: 'VIP',
     color: '#82C91E',
@@ -82,6 +89,7 @@ export const rankMap: Rank[] = [
 export const guildRankMap = {
   GUILDMASTER: 'Guild Master',
   OFFICER: 'Officer',
+  MEMBER: 'Member',
 };
 
 export const guildTagMap = {

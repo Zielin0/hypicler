@@ -69,10 +69,27 @@ export default function GuildSearch() {
       type: GuildInput.name,
     },
     validate: {
-      name: (value) =>
-        value.trim().length > 0 && value.trim().length <= 16
-          ? null
-          : 'Invalid Guild Name',
+      name: (value, values) => {
+        const type = values.type;
+
+        if (type === GuildInput.name) {
+          return value.trim().length > 0 && value.trim().length <= 16
+            ? null
+            : 'Invalid Guild Name';
+        }
+
+        if (type === GuildInput.player) {
+          return /^[a-zA-Z0-9_]{2,16}$/.test(value)
+            ? null
+            : 'Invalid Guild Name for Player';
+        }
+
+        if (type === GuildInput.id) {
+          return /^[a-z0-9]+$/.test(value) ? null : 'Invalid Guild Name for ID';
+        }
+
+        return 'Invalid Guild Input Type';
+      },
       type: (value) =>
         Object.values(GuildInput).includes(value)
           ? null

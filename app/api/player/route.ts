@@ -3,7 +3,6 @@ import { Hypicle, HypicleError, Player } from 'hypicle';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
-  const client = new Hypicle(process.env.HYPIXEL_API_KEY);
   const username = request.nextUrl.searchParams.get('username');
 
   if (!username)
@@ -11,6 +10,8 @@ export async function GET(request: NextRequest) {
       success: false,
       message: 'Missing [username] param',
     });
+
+  const client = new Hypicle(process.env.HYPIXEL_API_KEY);
 
   try {
     const uuid = await getUUIDByName(username);
@@ -216,12 +217,16 @@ export async function GET(request: NextRequest) {
       stats,
     });
   } catch (err: any) {
-    console.error(err);
     const error = err as HypicleError;
     if (error.status === 400)
       return NextResponse.json({
         success: false,
         message: "This player doesn't exist.",
+      });
+    else if (error.status === 429)
+      return NextResponse.json({
+        success: false,
+        message: 'Key throttle. Please try again later.',
       });
     else
       return NextResponse.json({

@@ -1,3 +1,4 @@
+import { GuildTag } from '@/app/types/GuildProps';
 import { Rank, guildTagMap, plusColorMap, rankMap } from '@/app/types/Maps';
 import { getRank } from '@/app/utils/utils';
 import { Text } from '@mantine/core';
@@ -51,11 +52,6 @@ const RankDisplay = ({
       );
   }
 };
-
-interface GuildTag {
-  tag: string | undefined;
-  tagColor: string | undefined;
-}
 
 export default function PlayerName({
   username,

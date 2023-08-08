@@ -59,7 +59,10 @@ export default function ArcadeStats({
         />
         <TitleContent
           title="W/L Ratio"
-          content={wl_ratio(pixelParty.wins, pixelParty.played)}
+          content={wl_ratio(
+            pixelParty.wins,
+            pixelParty.played - pixelParty.wins
+          )}
         />
         <TitleContent
           title="Powerups Gotten"
