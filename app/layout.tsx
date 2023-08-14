@@ -1,7 +1,7 @@
 import App from '@/app/App';
 import type { Metadata } from 'next';
 
-export const runtime = process.env.ENVIRONMENT === 'DEV' ? 'nodejs' : 'edge';
+export const runtime = 'edge';
 
 export const metadata: Metadata = {
   title: 'Hypicler',
