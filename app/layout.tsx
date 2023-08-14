@@ -8,7 +8,19 @@ export const metadata: Metadata = {
   description: 'Hypixel Stats Website',
   icons: {
     icon: '/icon.svg',
+    apple: '/icon192.png',
   },
+  themeColor: '#37B24D',
+  openGraph: {
+    title: 'Hypicler',
+    description: 'Hypixel Stats Website',
+    url: 'https://hypicler.pages.dev',
+    images: ['https://hypicler.pages.dev/icon512.png'],
+    siteName: 'Hypicler',
+    type: 'website',
+  },
+  authors: [{ name: 'Zielino', url: 'https://zielinus.xyz' }],
+  keywords: 'hypixel minecraft stats',
 };
 
 export default function RootLayout({
