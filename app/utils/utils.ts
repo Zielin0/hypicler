@@ -5,10 +5,6 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import React from 'react';
 
-export function capitalize(s: string): string {
-  return s.toLowerCase().charAt(0).toUpperCase() + s.toLowerCase().slice(1);
-}
-
 export const dateFormat = 'DD MMM YYYY HH:mm:ss';
 
 export const fetcher: (...args: Parameters<typeof fetch>) => Promise<any> = (

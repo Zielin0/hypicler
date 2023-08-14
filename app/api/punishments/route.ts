@@ -1,4 +1,4 @@
-import { Hypicle, getPunishments } from 'hypicle';
+import { Hypicle, HypicleError, getPunishments } from 'hypicle';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -19,10 +19,17 @@ export async function GET() {
     };
 
     return NextResponse.json({ success: true, staff, watchdog });
-  } catch (error) {
-    return NextResponse.json({
-      success: false,
-      message: 'An error occurred while fetching data',
-    });
+  } catch (err) {
+    const error = err as HypicleError;
+    if (error.status === 429)
+      return NextResponse.json({
+        success: false,
+        message: 'Key throttle. Please try again later.',
+      });
+    else
+      return NextResponse.json({
+        success: false,
+        message: 'An error occurred while fetching data',
+      });
   }
 }

@@ -134,19 +134,15 @@ export default function Page({ params }: { params: { id: string } }) {
    */
   const compareRanks = (a: GuildMemberData, b: GuildMemberData): number => {
     const rankOrder: Record<string, number> = {
-      GUILDMASTER: 0,
-      OFFICER: 1,
-      MEMBER: 3,
+      GUILDMASTER: Number.MAX_SAFE_INTEGER,
+      OFFICER: 2,
+      MEMBER: 1,
     };
 
-    const rankA = rankOrder[a.guildRank];
-    const rankB = rankOrder[b.guildRank];
+    const rankA = rankOrder[a.guildRank] || 0;
+    const rankB = rankOrder[b.guildRank] || 0;
 
-    if (rankA === undefined && rankB === undefined) return 0;
-    if (rankA === undefined) return 1;
-    if (rankB === undefined) return -1;
-
-    return rankA - rankB;
+    return rankB - rankA;
   };
 
   members.sort(compareRanks);
@@ -188,7 +184,6 @@ export default function Page({ params }: { params: { id: string } }) {
             href={`/player/${member.name}`}
             className={classes.playerLink}
             aria-label={`${member.name}'s Profile`}
-            passHref
           >
             <PlayerName
               username={member.name}

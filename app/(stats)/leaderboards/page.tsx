@@ -1,7 +1,5 @@
+import { redirect } from 'next/navigation';
+
 export default function Page() {
-  return (
-    <>
-      <h2>Leaderboards here</h2>
-    </>
-  );
+  redirect('/');
 }

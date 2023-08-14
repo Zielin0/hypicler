@@ -45,6 +45,7 @@ const useStyles = createStyles((theme) => ({
 
 interface PunishmentsDataResponse {
   success: boolean;
+  message?: string;
   staff: {
     total: number;
     daily: number;
@@ -81,7 +82,11 @@ export default function Page() {
           color="red"
           pr="lg"
         >
-          An error occurred while fetching data
+          {data?.success !== undefined && !data?.success ? (
+            <>{data?.message}</>
+          ) : (
+            <>An error occurred while fetching data</>
+          )}
         </Alert>
       </div>
     );
