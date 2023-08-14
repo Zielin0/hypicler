@@ -11,3 +11,7 @@ If you encounter any issues or bugs please submit a [github issue](https://githu
 ### Known Issues
 
 - Guild Members sorting
+
+## License
+
+This project is under the [MIT](./LICENSE) License.
