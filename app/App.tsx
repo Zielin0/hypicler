@@ -35,7 +35,11 @@ export default function App({ children }: { children: React.ReactNode }) {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider
-        theme={{ fontFamily: 'Inter', colorScheme, primaryColor: 'green' }}
+        theme={{
+          fontFamily: 'Inter, sans-serif',
+          colorScheme,
+          primaryColor: 'green',
+        }}
         withGlobalStyles
         withNormalizeCSS
       >
