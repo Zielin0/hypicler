@@ -15,8 +15,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const uuid = await getUUIDByName(username);
-    // TODO: Remove
-    console.log(uuid);
 
     const player = new Player(client, uuid);
 
@@ -220,9 +218,6 @@ export async function GET(request: NextRequest) {
       stats,
     });
   } catch (err: any) {
-    // TODO: Remove
-    console.error(err);
-
     const error = err as HypicleError;
     if (error.status === 400)
       return NextResponse.json({
