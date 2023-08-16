@@ -217,6 +217,8 @@ export async function GET(request: NextRequest) {
       stats,
     });
   } catch (err: any) {
+    console.error(err);
+
     const error = err as HypicleError;
     if (error.status === 400)
       return NextResponse.json({
