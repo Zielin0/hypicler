@@ -15,6 +15,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const uuid = await getUUIDByName(username);
+    console.log(uuid);
+
     const player = new Player(client, uuid);
 
     const name = await player.getName();
