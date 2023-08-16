@@ -1,12 +1,11 @@
 export async function getUUIDByName(name: string): Promise<string> {
   const response = await fetch(
     `https://api.mojang.com/users/profiles/minecraft/${name}`
-  );
+  ).then((data) => data.json());
 
-  // TODO: Remove
-  console.debug(await response.json());
+  console.debug(response);
 
-  return (await response.json()).id;
+  return response.id;
 }
 
 export const customToFixed = (number: number): string =>
