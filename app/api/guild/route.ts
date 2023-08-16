@@ -70,7 +70,9 @@ export async function GET(request: NextRequest) {
       success: true,
       ...guild,
     });
-  } catch (err) {
+  } catch (err: any) {
+    console.error(err);
+
     const error = err as HypicleError;
     if (error.status === 429)
       return NextResponse.json({

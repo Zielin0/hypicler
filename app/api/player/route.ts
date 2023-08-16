@@ -18,6 +18,8 @@ export async function GET(request: NextRequest) {
 
     const player = new Player(client, uuid);
 
+    const playerUUID = await player.getUUID();
+
     const name = await player.getName();
     const level = (await player.getExactLevel()) || 1;
     const karma = (await player.getKarma()) || 0;
@@ -41,10 +43,12 @@ export async function GET(request: NextRequest) {
       id: playerGuildData?._id,
       name: playerGuildData?.name,
       members: playerGuildData?.members.length,
-      rank: playerGuildData?.members.find((member) => member.uuid === uuid)
-        ?.rank,
-      joined: playerGuildData?.members.find((member) => member.uuid === uuid)
-        ?.joined,
+      rank: playerGuildData?.members.find(
+        (member) => member.uuid === playerUUID
+      )?.rank,
+      joined: playerGuildData?.members.find(
+        (member) => member.uuid === playerUUID
+      )?.joined,
       tag: playerGuildData?.tag,
       tagColor: playerGuildData?.tagColor,
     };
@@ -203,7 +207,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      uuid,
+      uuid: playerUUID,
       name,
       firstLogin,
       lastLogin,
