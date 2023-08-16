@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   try {
     const uuid = await getUUIDByName(username);
     // TODO: Remove
-    console.debug(uuid);
+    console.log(uuid);
 
     const player = new Player(client, uuid);
 

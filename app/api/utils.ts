@@ -3,7 +3,7 @@ export async function getUUIDByName(name: string): Promise<string> {
     `https://api.mojang.com/users/profiles/minecraft/${name}`
   ).then((data) => data.json());
 
-  console.debug(response);
+  console.log(response);
 
   return response.id;
 }
