@@ -277,6 +277,61 @@ const PlayerGuild = ({
   );
 };
 
+const PlayerGameStatus = (status: Session) => {
+  const [opened, { close, open }] = useDisclosure(false);
+
+  return status.online ? (
+    <Popover position="top" withArrow shadow="md" withinPortal opened={opened}>
+      <Popover.Target>
+        <Badge
+          variant="light"
+          color="green"
+          onMouseEnter={open}
+          onMouseLeave={close}
+          style={{ cursor: 'pointer' }}
+        >
+          Online
+        </Badge>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Text fz="sm" fw={500}>
+          Mode:{' '}
+          <Text span fz="sm" fw={400}>
+            {status.mode === 'LOBBY'
+              ? 'Lobby'
+              : gameTypeMap[status.gameType as keyof typeof gameTypeMap]}
+          </Text>
+        </Text>
+        {status.gameType !== 'HOUSING' && status.gameType !== 'SKYBLOCK' ? (
+          <Text fz="sm" fw={500}>
+            {status.mode === 'LOBBY' ? 'Game' : 'Map'}:{' '}
+            <Text span fz="sm" fw={400}>
+              {status.mode === 'LOBBY'
+                ? gameTypeMap[status.gameType as keyof typeof gameTypeMap]
+                : status.map}
+            </Text>
+          </Text>
+        ) : (
+          status.mode === 'LOBBY' && (
+            <Text fz="sm" fw={500}>
+              {status.mode === 'LOBBY' ? 'Game' : 'Map'}:{' '}
+              <Text span fz="sm" fw={400}>
+                {status.mode === 'LOBBY'
+                  ? gameTypeMap[status.gameType as keyof typeof gameTypeMap]
+                  : status.map}
+              </Text>
+            </Text>
+          )
+        )}
+      </Popover.Dropdown>
+    </Popover>
+  ) : (
+    <Badge variant="light" color="red">
+      Offline
+    </Badge>
+  );
+};
+
 interface PlayerCardProps {
   name: string;
   firstLogin: number;
@@ -305,7 +360,6 @@ export default function PlayerProfileCard({
   guild,
 }: PlayerCardProps) {
   const { classes, cx } = useStyles();
-  const [opened, { close, open }] = useDisclosure(false);
 
   return (
     <Card
@@ -337,48 +391,7 @@ export default function PlayerProfileCard({
             guildTag={{ tag: guild?.tag, tagColor: guild?.tagColor }}
           />
         </div>
-        {status.online ? (
-          <Popover
-            position="top"
-            withArrow
-            shadow="md"
-            withinPortal
-            opened={opened}
-          >
-            <Popover.Target>
-              <Badge
-                variant="light"
-                color="green"
-                onMouseEnter={open}
-                onMouseLeave={close}
-                style={{ cursor: 'pointer' }}
-              >
-                Online
-              </Badge>
-            </Popover.Target>
-            <Popover.Dropdown>
-              <Text fz="sm" fw={500}>
-                Mode:{' '}
-                <Text span fz="sm" fw={400}>
-                  {gameTypeMap[status.gameType as keyof typeof gameTypeMap]}
-                </Text>
-              </Text>
-              {status.gameType !== 'HOUSING' &&
-                status.gameType !== 'SKYBLOCK' && (
-                  <Text fz="sm" fw={500}>
-                    Map:{' '}
-                    <Text span fz="sm" fw={400}>
-                      {status.map}
-                    </Text>
-                  </Text>
-                )}
-            </Popover.Dropdown>
-          </Popover>
-        ) : (
-          <Badge variant="light" color="red">
-            Offline
-          </Badge>
-        )}
+        <PlayerGameStatus {...status} />
       </Group>
 
       <Card.Section className={classes.section}>

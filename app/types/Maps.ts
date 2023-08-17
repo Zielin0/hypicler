@@ -147,6 +147,7 @@ export const gameTypeMap = {
   REPLAY: 'Replay',
   SMP: 'SMP',
   WOOL_GAMES: 'Wool Wars',
+  MAIN: 'Main Hub',
 };
 
 export const gameNumTypeMap = {
