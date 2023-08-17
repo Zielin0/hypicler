@@ -222,8 +222,10 @@ export async function GET(request: NextRequest) {
       stats,
     });
   } catch (err: any) {
+    console.log(err);
+
     const error = err as HypicleError;
-    if (error.status === 400)
+    if (error.status === 400 || error.status === 422)
       return NextResponse.json({
         success: false,
         message: "This player doesn't exist.",
