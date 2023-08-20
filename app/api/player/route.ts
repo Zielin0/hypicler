@@ -126,14 +126,14 @@ export async function GET(request: NextRequest) {
     const wool = {
       wool: woolData?.coins || 0,
       exp: woolData?.progression?.experience || 0,
-      kills: woolData?.wool_wars?.stats.kills || 0,
-      assists: woolData?.wool_wars?.stats.assists || 0,
-      deaths: woolData?.wool_wars?.stats.deaths || 0,
-      wins: woolData?.wool_wars?.stats.wins || 0,
-      played: woolData?.wool_wars?.stats.games_played || 0,
-      woolPlaced: woolData?.wool_wars?.stats.wool_placed || 0,
-      blocksBroken: woolData?.wool_wars?.stats.blocks_broken || 0,
-      powerups: woolData?.wool_wars?.stats.powerups_gotten || 0,
+      kills: woolData?.wool_wars?.stats?.kills || 0,
+      assists: woolData?.wool_wars?.stats?.assists || 0,
+      deaths: woolData?.wool_wars?.stats?.deaths || 0,
+      wins: woolData?.wool_wars?.stats?.wins || 0,
+      played: woolData?.wool_wars?.stats?.games_played || 0,
+      woolPlaced: woolData?.wool_wars?.stats?.wool_placed || 0,
+      blocksBroken: woolData?.wool_wars?.stats?.blocks_broken || 0,
+      powerups: woolData?.wool_wars?.stats?.powerups_gotten || 0,
     };
 
     const mcgoData = await playerStats.getByName('MCGO');
