@@ -17,7 +17,7 @@
     "@tabler/icons-react": "^2.30.0",
     "dayjs": "^1.11.9",
     "hypicle": "^1.1.2",
-    "next": "13.4.12",
+    "next": "14.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "swr": "^2.2.0"
