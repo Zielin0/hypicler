@@ -1,5 +1,6 @@
 import App from '@/app/App';
 import type { Metadata } from 'next';
+import Script from 'next/script';
 
 export const runtime = 'edge';
 
@@ -31,6 +32,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Script
+          src="https://cloud.umami.is/script.js"
+          data-website-id="567dad5c-bf43-4a16-b293-719f0ba1b5a6"
+        />
         <App>{children}</App>
       </body>
     </html>
